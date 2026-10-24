@@ -31,30 +31,50 @@
   <div class="doc-head">
     <p class="lab-sign">Протокол операции</p>
     <h1>Инструкция со скриншотами</h1>
-    <p class="lead">Все шаги с картинками: где нажать, что вставить и чего не трогать. Секретный протокол лаборатории выдаётся своим — войдите через Telegram.</p>
+    <p class="lead">Все шаги с картинками: где нажать, что вставить и чего не трогать. Секретный протокол лаборатории выдаётся своим: зарегистрируйтесь, подключите Telegram и подпишитесь на канал.</p>
   </div>
 
   <!-- 1. Вход -->
   <section class="gate" id="gate-login" hidden>
     <div class="gate-card">
       <h2>Пропуск в операционную</h2>
-      <ol class="gate-list">
-        <li>Войдите через Telegram — это одна кнопка, пароль не нужен.</li>
-        <li>Подпишитесь на канал лаборатории, если ещё не подписаны.</li>
-        <li>Готово: протокол откроется здесь же.</li>
+      <ol class="steps-mini" aria-label="Как получить доступ">
+        <li class="on">Регистрация</li><li>Telegram</li><li>Подписка</li>
       </ol>
-      <div id="tg-login" class="tg-login"></div>
+      <div class="tabs" role="tablist">
+        <button class="chip on" type="button" role="tab" aria-selected="true" data-tab="reg">Я здесь впервые</button>
+        <button class="chip" type="button" role="tab" aria-selected="false" data-tab="in">Уже есть логин</button>
+      </div>
+      <form id="reg-form" class="pass-form" data-pane="reg">
+        <label>Придумайте логин <input name="login" autocomplete="username" required minlength="3" maxlength="32" placeholder="латиница и цифры"></label>
+        <label>Придумайте пароль <input name="password" type="password" autocomplete="new-password" required minlength="8" placeholder="от 8 символов"></label>
+        <button class="btn" type="submit">Зарегистрироваться</button>
+        <p class="gate-small" id="reg-msg" role="status"></p>
+      </form>
+      <form id="pass-form" class="pass-form" data-pane="in" hidden>
+        <label>Логин <input name="login" autocomplete="username" required minlength="3" maxlength="32"></label>
+        <label>Пароль <input name="password" type="password" autocomplete="current-password" required minlength="8"></label>
+        <button class="btn" type="submit">Войти</button>
+        <p class="gate-small" id="pass-msg" role="status"></p>
+      </form>
+      <p class="gate-small">Логин и пароль — ваш запасной ключ: даже если с Telegram что-то случится, кабинет останется на сайте. Пароли от Google, Яндекса и ключи нейросетей мы не спрашиваем никогда.</p>
       <details class="pass-login">
-        <summary>Войти по логину и паролю</summary>
-        <form id="pass-form" class="pass-form">
-          <label>Логин <input name="login" autocomplete="username" required minlength="3" maxlength="32"></label>
-          <label>Пароль <input name="password" type="password" autocomplete="current-password" required minlength="8"></label>
-          <button class="btn small" type="submit">Войти</button>
-          <p class="gate-small" id="pass-msg" role="status"></p>
-        </form>
-        <p class="gate-small">Логин и пароль задаются в личном кабинете после первого входа через Telegram. Пригодится, если Telegram недоступен.</p>
+        <summary>Уже пользуетесь ботом? Войти через Telegram</summary>
+        <div id="tg-login" class="tg-login"></div>
       </details>
-      <p class="gate-small">Мы получим только ваше имя и ник в Telegram. Ключи и пароли сайт не спрашивает никогда.</p>
+    </div>
+  </section>
+
+  <!-- 1б. Подключение Telegram к аккаунту -->
+  <section class="gate" id="gate-link" hidden>
+    <div class="gate-card">
+      <h2>Подключите Telegram</h2>
+      <ol class="steps-mini" aria-label="Как получить доступ">
+        <li class="done">Регистрация</li><li class="on">Telegram</li><li>Подписка</li>
+      </ol>
+      <p>Вы вошли как <b id="link-login"></b>. Теперь подключите Telegram — так сайт свяжется с вашей колонкой и ботом, а мы проверим подписку на канал.</p>
+      <div id="tg-link" class="tg-login"></div>
+      <p class="gate-small" id="link-msg" role="status"></p>
     </div>
   </section>
 
@@ -62,6 +82,9 @@
   <section class="gate" id="gate-sub" hidden>
     <div class="gate-card">
       <h2>Осталось подписаться</h2>
+      <ol class="steps-mini" aria-label="Как получить доступ">
+        <li class="done">Регистрация</li><li class="done">Telegram</li><li class="on">Подписка</li>
+      </ol>
       <p>Протокол открыт для подписчиков канала. Там новости, советы по настройке и рубрика «Глупая Алиса против умной».</p>
       <ul class="gate-channels"></ul>
       <button class="btn" type="button" id="recheck">Я подписался</button>

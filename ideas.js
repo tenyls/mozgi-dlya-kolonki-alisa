@@ -31,7 +31,7 @@
         body: JSON.stringify({ personaCustom: b.dataset.apply }),
       }).then(function (r) { return r.json().then(function (d) { d.status = r.status; return d; }); }).then(function (d) {
         b.disabled = false;
-        if (d.status === 401) { location.href = 'instrukciya.html'; return; }
+        if (d.status === 401 || d.status === 403) { location.href = 'instrukciya.html'; return; }
         b.textContent = d.ok ? 'Включено ✓' : label;
         status.textContent = d.ok ? 'Готово! Через минуту скажите колонке: «Алиса, запусти навык …» — и проверьте новый характер.' : 'Не получилось, попробуйте ещё раз.';
         setTimeout(function () { b.textContent = label; }, 2500);

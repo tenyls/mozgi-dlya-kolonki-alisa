@@ -1,15 +1,16 @@
-// Инструкция открывается только после входа через Telegram и подписки на канал.
+// Доступ: 1) регистрация (логин+пароль) → 2) подключение Telegram → 3) подписка на канал → кабинет и инструкция.
+// В Mini App внутри Telegram вход происходит сам.
 // Сервер: Cloudflare Worker (тот же, что у бота). Текст и картинки шагов меняются в пульте «🧭 Мастер настройки».
 (function () {
   var API = 'https://pult-dlya-kolonki.tenylse.workers.dev';
   var BOT = 'alisa_mozgi_dlya_kolonki_bot';
   var KEY = 'mozgi_token';
   var $ = function (id) { return document.getElementById(id); };
-  var screens = ['gate-login', 'gate-sub', 'gate-error', 'guide', 'gate-wait'];
+  var screens = ['gate-login', 'gate-link', 'gate-sub', 'gate-error', 'guide', 'gate-wait'];
 
   function show(id) {
     screens.forEach(function (s) { $(s).hidden = s !== id; });
-    var logged = id === 'guide' || id === 'gate-sub';
+    var logged = id === 'guide' || id === 'gate-sub' || id === 'gate-link';
     document.querySelector('.logout').hidden = !logged || inTg();
     if (!logged && id !== 'gate-wait') $('kabinet').hidden = true;
   }
@@ -28,9 +29,8 @@
     }).then(function (r) { clearTimeout(timer); return r.json().then(function (d) { d.status = r.status; return d; }); });
   }
 
-  function showLogin() {
-    show('gate-login');
-    var box = $('tg-login');
+  function mountWidget(boxId) {
+    var box = $(boxId);
     if (box.childElementCount) return;
     var s = document.createElement('script');
     s.async = true;
@@ -42,6 +42,12 @@
     s.setAttribute('data-auth-url', location.origin + location.pathname);
     s.setAttribute('data-request-access', 'write');
     box.appendChild(s);
+  }
+  function showLogin() { show('gate-login'); mountWidget('tg-login'); }
+  function showLink(login, msg) {
+    show('gate-link'); $('link-login').textContent = login || '';
+    $('link-msg').textContent = msg || '';
+    mountWidget('tg-link');
   }
 
   function showSubscribe(missing) {
@@ -59,10 +65,25 @@
   }
 
   function afterAuth(d) {
-    if (!d.ok) { setToken(null); return showLogin(); }
+    if (!d.ok) {
+      if (d.status === 409) return loadAll(d.error); // этот Telegram уже привязан к другому логину
+      setToken(null); return showLogin();
+    }
     setToken(d.token);
+    if (d.linked === false) return showLink(d.login);
     loadCabinet();
     return d.subscribed ? loadGuide() : showSubscribe(d.missing);
+  }
+
+  // С сохранённым пропуском: кабинет (или просьба подключить Telegram) + инструкция
+  function loadAll(msg) {
+    show('gate-wait');
+    request('/site/me').then(function (d) {
+      if (d.status === 401) { setToken(null); return showLogin(); }
+      if (d.needLink) return showLink(d.login, msg);
+      if (d.ok) renderCabinet(d);
+      loadGuide();
+    }).catch(function () { show('gate-error'); });
   }
 
   // ---------- Личный кабинет ----------
@@ -182,6 +203,7 @@
     return request('/site/guide').then(function (d) {
       if (d.ok) return renderGuide(d.steps);
       if (d.error === 'subscribe') return showSubscribe(d.missing);
+      if (d.error === 'link') return loadAll();
       setToken(null); showLogin();
     }).catch(function () { show('gate-error'); });
   }
@@ -222,6 +244,20 @@
       if (d.error !== 'subscribe') { setToken(null); showLogin(); }
     }).catch(function () { show('gate-error'); });
   });
+  document.querySelectorAll('[data-tab]').forEach(function (t) {
+    t.addEventListener('click', function () {
+      document.querySelectorAll('[data-tab]').forEach(function (x) { x.classList.toggle('on', x === t); x.setAttribute('aria-selected', x === t ? 'true' : 'false'); });
+      document.querySelectorAll('[data-pane]').forEach(function (p) { p.hidden = p.dataset.pane !== t.dataset.tab; });
+    });
+  });
+  $('reg-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = e.target; $('reg-msg').textContent = 'Создаю аккаунт…';
+    request('/site/register', { body: { login: f.login.value, password: f.password.value } }).then(function (d) {
+      if (d.ok) { f.reset(); $('reg-msg').textContent = ''; return afterAuth(d); }
+      $('reg-msg').textContent = d.error || 'Не получилось.';
+    }).catch(function () { $('reg-msg').textContent = 'Сервер не ответил.'; });
+  });
   $('pass-form').addEventListener('submit', function (e) {
     e.preventDefault();
     var f = e.target; $('pass-msg').textContent = 'Проверяем…';
@@ -235,7 +271,7 @@
     var f = e.target; $('cab-pass-msg').textContent = 'Сохраняю…';
     request('/site/password', { body: { login: f.login.value, password: f.password.value } }).then(function (d) {
       $('cab-pass-msg').textContent = d.ok ? '✅ Готово! Теперь можно входить по логину ' + d.login + '.' : (d.error || 'Не получилось.');
-      if (d.ok) { f.password.value = ''; $('cab-pass-state').textContent = 'Ваш логин: ' + d.login + '.'; }
+      if (d.ok) { if (d.token) setToken(d.token); f.password.value = ''; $('cab-pass-state').textContent = 'Ваш логин: ' + d.login + '.'; }
     }).catch(function () { $('cab-pass-msg').textContent = 'Сервер не ответил.'; });
   });
   $('guide-login-btn').addEventListener('click', function () { showLogin(); window.scrollTo(0, 0); });
@@ -251,8 +287,7 @@
     history.replaceState(null, '', location.pathname + location.hash);
     window.mozgiAuth(user);
   } else if (getToken()) {
-    loadCabinet();
-    loadGuide();
+    loadAll();
   } else {
     // Инструкция может быть открыта всем (если так включено в пульте)
     request('/site/guide').then(function (d) { if (d.ok) { renderGuide(d.steps); $('guide-login').hidden = false; } else showLogin(); }).catch(showLogin);
