@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Протокол операции — Мозги для колонки</title>
+<meta name="description" content="Пошаговая инструкция со скриншотами: как подключить нейросеть к колонке с Алисой. Доступна после входа через Telegram.">
+<meta name="theme-color" content="#d6efe6">
+<link rel="icon" href="img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="img/logo-512.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;600;700&family=Unbounded:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="https://telegram.org/js/telegram-web-app.js" defer></script>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="./"><img src="img/logo-512.png" alt="" width="40" height="40">Мозги для колонки</a>
+  <nav aria-label="Разделы">
+    <a href="./">Главная</a>
+    <button class="logout" type="button" hidden>Выйти</button>
+    <a class="btn small" data-bot href="https://t.me/alisa_mozgi_dlya_kolonki_bot?start=site_guide">Открыть бота</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="doc-head">
+    <p class="lab-sign">Протокол операции</p>
+    <h1>Инструкция со скриншотами</h1>
+    <p class="lead">Все шаги с картинками: где нажать, что вставить и чего не трогать. Секретный протокол лаборатории выдаётся своим — войдите через Telegram.</p>
+  </div>
+
+  <!-- 1. Вход -->
+  <section class="gate" id="gate-login" hidden>
+    <div class="gate-card">
+      <h2>Пропуск в операционную</h2>
+      <ol class="gate-list">
+        <li>Войдите через Telegram — это одна кнопка, пароль не нужен.</li>
+        <li>Подпишитесь на канал лаборатории, если ещё не подписаны.</li>
+        <li>Готово: протокол откроется здесь же.</li>
+      </ol>
+      <div id="tg-login" class="tg-login"></div>
+      <p class="gate-small">Мы получим только ваше имя и ник в Telegram. Ключи и пароли сайт не спрашивает никогда.</p>
+    </div>
+  </section>
+
+  <!-- 2. Подписка -->
+  <section class="gate" id="gate-sub" hidden>
+    <div class="gate-card">
+      <h2>Осталось подписаться</h2>
+      <p>Протокол открыт для подписчиков канала. Там новости, советы по настройке и рубрика «Глупая Алиса против умной».</p>
+      <ul class="gate-channels"></ul>
+      <button class="btn" type="button" id="recheck">Я подписался</button>
+      <p class="gate-small" id="recheck-msg" role="status"></p>
+    </div>
+  </section>
+
+  <!-- 3. Ошибка -->
+  <section class="gate" id="gate-error" hidden>
+    <div class="gate-card">
+      <h2>Лаборатория не отвечает</h2>
+      <p>Сервер не ответил. Обновите страницу через минуту или пройдите все шаги в боте — там та же инструкция.</p>
+      <a class="btn" data-bot href="https://t.me/alisa_mozgi_dlya_kolonki_bot?start=site_guide">Открыть бота</a>
+    </div>
+  </section>
+
+  <p class="gate-wait" id="gate-wait" role="status">Проверяем пропуск…</p>
+
+  <!-- Личный кабинет (виден после входа) -->
+  <section id="kabinet" class="cabinet" hidden>
+    <div class="cab-head">
+      <h2>Карта пациентки</h2>
+      <p class="cab-hello"></p>
+    </div>
+    <div class="cab-grid">
+      <div class="cab-card" id="cab-status"></div>
+      <div class="cab-card" id="cab-settings" hidden>
+        <h3>Характер</h3>
+        <div class="chips" id="cab-personas" role="radiogroup" aria-label="Характер колонки"></div>
+        <h3>Основная нейросеть</h3>
+        <div class="chips" id="cab-primary" role="radiogroup" aria-label="Основная нейросеть"></div>
+        <p class="gate-small" id="cab-saved" role="status"></p>
+      </div>
+      <div class="cab-card" id="cab-invite">
+        <h3>Пригласить друга</h3>
+        <p>Друзей по вашей ссылке: <b id="cab-refs">0</b></p>
+        <button class="btn small ghost" type="button" id="cab-copy-ref">Скопировать мою ссылку</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Инструкция -->
+  <section id="guide" hidden>
+    <h2 class="guide-title">Протокол операции по шагам</h2>
+    <p class="warn">Кнопки «📋 Скопировать» и ваш личный адрес сервера — в боте. Удобно: бот в телефоне, а эта страница на компьютере.</p>
+    <ul class="toc" id="guide-toc" aria-label="Шаги"></ul>
+    <div id="guide-steps"></div>
+    <div class="final">
+      <h2>Пройти по шагам с ботом</h2>
+      <p class="sub">Бот подставит ваш адрес сервера, даст кнопки «скопировать» и проверит, что мозги работают.</p>
+      <div class="cta-row"><a class="btn" data-bot href="https://t.me/alisa_mozgi_dlya_kolonki_bot?start=site_guide">Открыть бота</a></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap row">
+    <p class="disclaimer">Неофициальный проект, не связан с Яндексом.</p>
+    <p><a href="./">Главная</a> · <a href="privacy.html">Конфиденциальность</a> · <a href="terms.html">Условия</a> · <a href="https://t.me/alisa_mozgi_dlya_kolonki?direct" target="_blank" rel="noopener">Реклама и сотрудничество</a></p>
+  </div>
+</footer>
+
+<script src="app.js" defer></script>
+<script src="guide.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Мозги для колонки с Алисой</title>
+<meta name="description" content="Бесплатно подключаем нейросеть к колонке с Алисой: отвечает на любые вопросы, помнит разговор, шутит. 10 минут, без программирования, через Telegram-бота. В России работает без VPN.">
+<meta name="theme-color" content="#d6efe6">
+<link rel="icon" href="img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="img/logo-512.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta property="og:title" content="Мозги для колонки с Алисой">
+<meta property="og:description" content="Вставляем колонке мозги: нейросеть вместо «вот что я нашла в интернете». Бесплатно, 10 минут.">
+<meta property="og:image" content="https://tenyls.github.io/mozgi-dlya-kolonki-alisa/img/banner.png">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;600;700&family=Unbounded:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="https://telegram.org/js/telegram-web-app.js" defer></script>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="./"><img src="img/logo-512.png" alt="" width="40" height="40">Мозги для колонки</a>
+  <nav aria-label="Разделы">
+    <a href="#do-posle">До и после</a>
+    <a href="#operaciya">Как это работает</a>
+    <a href="instrukciya.html">Инструкция и кабинет</a>
+    <a class="btn small" data-bot href="https://t.me/alisa_mozgi_dlya_kolonki_bot?start=site">Открыть бота</a>
+  </nav>
+</header>
+
+<main>
+  <section class="wrap hero">
+    <div class="hero-grid">
+      <div>
+        <p class="lab-sign">Лаборатория по пересадке мозгов колонкам</p>
+        <h1>Вставляем колонке мозги</h1>
+        <p class="lead">Ваша Алиса умеет ставить будильник и говорить «вот что я нашла в интернете». Подключим к ней нейросеть — и она начнёт <b>нормально отвечать, помнить разговор и даже шутить</b>. Через Telegram-бота, без программирования.</p>
+        <div class="cta-row">
+          <a class="btn" data-bot href="https://t.me/alisa_mozgi_dlya_kolonki_bot?start=site">Начать операцию в Telegram</a>
+          <a class="btn ghost" href="#operaciya">Как это работает</a>
+        </div>
+        <ul class="facts">
+          <li>⏱ около 10 минут</li>
+          <li>💸 бесплатно</li>
+          <li>🇷🇺 в России — без VPN</li>
+        </ul>
+      </div>
+
+      <div class="theatre" aria-label="Колонка получает мозги, пульс появляется">
+        <svg class="patient" viewBox="200 150 624 740" role="img" aria-label="Колонка с мозгами и отвёрткой">
+          <defs>
+            <linearGradient id="body" x1="0" x2="1"><stop offset="0" stop-color="#1F2937"/><stop offset=".45" stop-color="#4B5563"/><stop offset="1" stop-color="#111827"/></linearGradient>
+            <linearGradient id="ring" x1="0" x2="1"><stop offset="0" stop-color="#22D3EE"/><stop offset=".5" stop-color="#A78BFA"/><stop offset="1" stop-color="#F472B6"/></linearGradient>
+            <radialGradient id="brain" gradientUnits="userSpaceOnUse" cx="480" cy="360" r="230"><stop offset="0" stop-color="#FFE4F1"/><stop offset=".6" stop-color="#F9A8D4"/><stop offset="1" stop-color="#EC4899"/></radialGradient>
+            <linearGradient id="handle" x1="0" x2="1"><stop offset="0" stop-color="#FDE047"/><stop offset="1" stop-color="#F59E0B"/></linearGradient>
+            <linearGradient id="steel" x1="0" x2="1"><stop offset="0" stop-color="#F8FAFC"/><stop offset="1" stop-color="#94A3B8"/></linearGradient>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
+            <pattern id="fabric" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="9" cy="9" r="2.6" fill="#000" opacity=".28"/></pattern>
+          </defs>
+          <!-- операционный стол -->
+          <rect x="230" y="852" width="564" height="22" rx="11" fill="#26163f"/>
+          <ellipse cx="512" cy="856" rx="250" ry="26" fill="#26163f" opacity=".18"/>
+          <!-- корпус -->
+          <path d="M312 520 L312 800 Q312 852 512 852 Q712 852 712 800 L712 520 Z" fill="url(#body)"/>
+          <path d="M312 520 L312 800 Q312 852 512 852 Q712 852 712 800 L712 520 Z" fill="url(#fabric)"/>
+          <ellipse cx="512" cy="520" rx="200" ry="52" fill="#0F172A"/>
+          <ellipse cx="512" cy="520" rx="200" ry="52" fill="none" stroke="#475569" stroke-width="16"/>
+          <g class="ring-glow">
+            <ellipse cx="512" cy="520" rx="200" ry="52" fill="none" stroke="url(#ring)" stroke-width="16"/>
+            <ellipse cx="512" cy="520" rx="200" ry="52" fill="none" stroke="url(#ring)" stroke-width="22" opacity=".6" filter="url(#glow)"/>
+          </g>
+          <!-- мозг с отвёрткой -->
+          <g class="brain-drop">
+            <g fill="url(#brain)" stroke="#BE185D" stroke-width="10" stroke-linejoin="round">
+              <circle cx="420" cy="440" r="78"/><circle cx="510" cy="390" r="92"/><circle cx="606" cy="436" r="80"/><circle cx="455" cy="500" r="64"/><circle cx="565" cy="500" r="64"/>
+            </g>
+            <g fill="url(#brain)">
+              <circle cx="420" cy="440" r="70"/><circle cx="510" cy="392" r="84"/><circle cx="606" cy="436" r="72"/><circle cx="455" cy="498" r="56"/><circle cx="565" cy="498" r="56"/><rect x="420" y="420" width="190" height="90"/>
+            </g>
+            <g fill="none" stroke="#DB2777" stroke-width="9" stroke-linecap="round">
+              <path d="M510 318 Q490 360 512 400 Q534 440 510 520"/><path d="M392 420 Q420 400 446 428 Q470 452 450 480"/><path d="M630 410 Q600 396 584 426 Q570 456 598 476"/><path d="M455 350 Q470 372 458 392"/><path d="M562 344 Q548 370 566 392"/>
+            </g>
+            <ellipse cx="478" cy="346" rx="34" ry="16" fill="#fff" opacity=".7" transform="rotate(-20 478 346)"/>
+            <g transform="rotate(38 690 300)">
+              <rect x="676" y="250" width="20" height="150" rx="6" fill="url(#steel)"/>
+              <path d="M676 398 L696 398 L690 422 L682 422 Z" fill="#CBD5E1"/>
+              <rect x="660" y="120" width="52" height="140" rx="22" fill="url(#handle)" stroke="#B45309" stroke-width="6"/>
+              <rect x="672" y="140" width="8" height="100" rx="4" fill="#fff" opacity=".6"/>
+            </g>
+          </g>
+          <!-- лицо -->
+          <circle cx="448" cy="650" r="46" fill="#fff"/><circle cx="576" cy="650" r="46" fill="#fff"/>
+          <circle cx="462" cy="662" r="21" fill="#111827"/><circle cx="562" cy="640" r="21" fill="#111827"/>
+          <circle cx="470" cy="655" r="7" fill="#fff"/><circle cx="570" cy="633" r="7" fill="#fff"/>
+          <path d="M452 742 Q512 792 572 742" fill="none" stroke="#F9A8D4" stroke-width="14" stroke-linecap="round"/>
+        </svg>
+        <div class="monitor">
+          <svg viewBox="0 0 600 60" preserveAspectRatio="none" aria-hidden="true">
+            <path class="ekg-flat" d="M0 32 H600"/>
+            <path class="ekg-beat" d="M0 32 H90 L110 32 L122 8 L136 52 L148 32 H250 L270 32 L282 6 L296 54 L308 32 H410 L430 32 L442 8 L456 52 L468 32 H600"/>
+          </svg>
+          <p class="pulse"><span class="before">Пульс мозга: 0<small>«Вот что я нашла…»</small></span><span class="after">Пульс мозга: 72<small>Пациентка думает</small></span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tape" aria-hidden="true"></div>
+
+  <section class="wrap block" id="do-posle">
+    <h2>До и после операции</h2>
+    <p class="sub">Одни и те же вопросы — одной и той же колонке. Разница только в мозгах.</p>
+    <div class="versus">
+      <div class="before">
+        <h3>До</h3>
+        <p class="note">Обычная Алиса</p>
+        <div class="chat">
+          <p class="q">Почему небо голубое?</p>
+          <p class="a">Вот что я нашла в интернете.</p>
+          <p class="q">Придумай сказку про кота-космонавта</p>
+          <p class="a">Я пока не умею это делать.</p>
+          <p class="q">Что приготовить из курицы, риса и кабачка?</p>
+          <p class="a">Включаю песню «Кабачок».</p>
+          <p class="q">А что я спрашивал минуту назад?</p>
+          <p class="a">Не поняла вас.</p>
+        </div>
+      </div>
+      <div class="after">
+        <h3>После</h3>
+        <p class="note">Алиса с мозгами</p>
+        <div class="chat">
+          <p class="q">Почему небо голубое?</p>
+          <p class="a">Солнечный свет рассеивается в воздухе, а синий — сильнее всех цветов. Поэтому днём небо голубое, а на закате красное: синий свет теряется по дороге.</p>
+          <p class="q">Придумай сказку про кота-космонавта</p>
+          <p class="a">Жил-был кот Пушок. Однажды он залез в ракету за сосиской, а проснулся уже на Луне…</p>
+          <p class="q">Что приготовить из курицы, риса и кабачка?</p>
+          <p class="a">Плов с кабачком: обжарьте курицу с луком, добавьте кабачок кубиками, рис и воду — 25 минут под крышкой.</p>
+          <p class="q">А что я спрашивал минуту назад?</p>
+          <p class="a">Про кабачок! Подсказать соус к плову?</p>
+        </div>
+      </div>
+    </div>
+    <p class="versus-foot">Реконструкция по мотивам реальных разговоров. Ни одна колонка не пострадала.</p>
+  </section>
+
+  <section class="wrap block" id="sprosit">
+    <h2>Что спросить у колонки с мозгами</h2>
+    <p class="sub">Говорите как с человеком. Она помнит, о чём шла речь, — можно уточнять и переспрашивать.</p>
+    <div class="asks">
+      <div><h3>За ужином</h3><p><q>Что приготовить из того, что есть в холодильнике?</q> — и пошагово, пока вы режете лук.</p></div>
+      <div><h3>С детьми</h3><p><q>Объясни, почему Луна не падает.</q> Или сказку на ночь — каждый раз новую, с котом в главной роли.</p></div>
+      <div><h3>В споре</h3><p><q>Кто прав: помидор — это ягода?</q> Семейные споры теперь решаются за 5 секунд.</p></div>
+      <div><h3>За учёбой</h3><p><q>Проверь меня по таблице умножения на 7.</q> Терпеливая, как лучшая учительница.</p></div>
+      <div><h3>Для настроения</h3><p><q>Расскажи анекдот про программиста.</q> С характером «Шутница» — сразу три.</p></div>
+      <div><h3>По делу</h3><p><q>Как сказать по-английски «я опаздываю на поезд»?</q> Переводит, объясняет, подсказывает.</p></div>
+    </div>
+  </section>
+
+  <section class="wrap block" id="operaciya">
+    <h2>Ход операции</h2>
+    <p class="sub">Бот ведёт за руку: вы нажимаете кнопки и копируете готовые тексты. Код писать не нужно.</p>
+    <ol class="steps">
+      <li>
+        <h3>Достаём мозги</h3>
+        <p>Берём бесплатные ключи от нейросетей Gemini (Google) и Groq — запасной, если Gemini занят.</p>
+        <p class="time">≈ 3 минуты</p>
+      </li>
+      <li>
+        <h3>Строим дом для мозгов</h3>
+        <p>Бот сам ставит вам личный сервер на бесплатном Vercel. Он только ваш — ключи хранятся там, а не у нас.</p>
+        <p class="time">≈ 2 минуты</p>
+      </li>
+      <li>
+        <h3>Подключаем к колонке</h3>
+        <p>Создаём свой приватный навык в Яндекс Диалогах и говорим: «Алиса, запусти навык…»</p>
+        <p class="time">≈ 5 минут + 5 минут Яндекс включает</p>
+      </li>
+    </ol>
+    <div class="after-steps">
+      <a class="btn" data-bot href="https://t.me/alisa_mozgi_dlya_kolonki_bot?start=site">Начать в Telegram</a>
+      <a class="btn ghost" href="instrukciya.html">Инструкция со скриншотами</a>
+      <span class="hint">Инструкция открывается после входа через Telegram</span>
+    </div>
+  </section>
+
+  <section class="novpn block" id="bez-vpn">
+    <div class="wrap">
+      <h2>После выписки VPN не нужен</h2>
+      <p class="sub">Колонка из России с Gemini напрямую не разговаривает — за неё это делает ваш сервер в Германии.</p>
+      <ol class="chain">
+        <li><b>Колонка</b><span>вы задаёте вопрос дома</span></li>
+        <li><b>Яндекс</b><span>передаёт его вашему навыку</span></li>
+        <li><b>Ваш сервер</b><span>во Франкфурте, на Vercel</span></li>
+        <li><b>Gemini</b><span>думает и отвечает</span></li>
+      </ol>
+      <div class="vpn-note">
+        <strong>1 раз</strong>
+        <p>VPN нужен только во время настройки — чтобы открыть сайты Google AI Studio и Groq и взять ключи. Дальше колонка работает в России как обычно, без всяких VPN.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap block" id="haraktery">
+    <h2>Характер на выбор</h2>
+    <p class="sub">Меняется одной кнопкой — в боте или в личном кабинете на сайте. Колонку перенастраивать не нужно.</p>
+    <ul class="personas">
+      <li>🧠 Умная <span>и дружелюбная</span></li>
+      <li>😄 Шутница</li>
+      <li>👨‍🏫 Учитель <span>английского</span></li>
+      <li>🧒 Сказочница <span>для детей</span></li>
+      <li>👨‍🍳 Шеф-повар</li>
+      <li>🎬 Кинокритик</li>
+      <li>✍️ Свой <span>— опишите словами</span></li>
+    </ul>
+  </section>
+
+  <section class="wrap block" id="voprosy">
+    <h2>Вопросы перед операцией</h2>
+    <div class="faq">
+      <details>
+        <summary>Это правда бесплатно?</summary>
+        <p>Да. Gemini и Groq дают бесплатные лимиты, Vercel — бесплатный тариф Hobby, бот тоже бесплатный. Для разговоров с колонкой лимитов хватает с запасом.</p>
+      </details>
+      <details>
+        <summary>Вы видите мои ключи?</summary>
+        <p>Нет. Ключи нужны боту только на время установки: он передаёт их на ваш сервер и сразу забывает, а сообщения с ключами удаляет из чата.</p>
+      </details>
+      <details>
+        <summary>Нужен ли VPN?</summary>
+        <p>Только при настройке — чтобы открыть сайты Google и Groq. Потом колонка работает в России без VPN.</p>
+      </details>
+      <details>
+        <summary>Сколько ждать, пока Яндекс включит навык?</summary>
+        <p>Приватный навык проходит автоматическую проверку за пару минут. После кнопки «Опубликовать» — ещё около 5 минут.</p>
+      </details>
+      <details>
+        <summary>Какая колонка подойдёт?</summary>
+        <p>Любая с Алисой: Станция, Мини, Лайт, Макс и другие. Важно создавать навык в том же аккаунте Яндекса, к которому привязана колонка.</p>
+      </details>
+      <details>
+        <summary>А обычная Алиса никуда не денется?</summary>
+        <p>Нет. Мозги включаются фразой «Алиса, запусти навык…», а выключаются словом «хватит». Будильники, музыка и умный дом работают как раньше.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="wrap final">
+    <h2>Пациентка готова к операции</h2>
+    <p class="sub">Откройте бота — он проведёт по шагам и поможет, если что-то не получится.</p>
+    <div class="cta-row">
+      <a class="btn" data-bot href="https://t.me/alisa_mozgi_dlya_kolonki_bot?start=site">Открыть бота</a>
+      <a class="btn ghost" data-bot href="https://t.me/alisa_mozgi_dlya_kolonki">Канал с новостями</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap row">
+    <p class="disclaimer">Неофициальный проект, не связан с Яндексом.</p>
+    <p><a href="instrukciya.html">Инструкция</a> · <a href="privacy.html">Конфиденциальность</a> · <a href="terms.html">Условия</a> · <a href="https://t.me/alisa_mozgi_dlya_kolonki?direct" target="_blank" rel="noopener">Реклама и сотрудничество</a></p>
+  </div>
+</footer>
+
+<script src="app.js" defer></script>
+</body>
+</html>

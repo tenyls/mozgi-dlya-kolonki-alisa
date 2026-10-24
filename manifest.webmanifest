@@ -1,0 +1,15 @@
+{
+  "name": "Мозги для колонки с Алисой",
+  "short_name": "Мозги колонки",
+  "description": "Подключаем нейросеть к колонке с Алисой — бесплатно и за 10 минут",
+  "lang": "ru",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#d6efe6",
+  "theme_color": "#d6efe6",
+  "icons": [
+    { "src": "img/logo-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "img/logo.png", "sizes": "1024x1024", "type": "image/png", "purpose": "any" }
+  ]
+}

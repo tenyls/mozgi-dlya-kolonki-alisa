@@ -1,0 +1,210 @@
+// Инструкция открывается только после входа через Telegram и подписки на канал.
+// Сервер: Cloudflare Worker (тот же, что у бота). Текст и картинки шагов меняются в пульте «🧭 Мастер настройки».
+(function () {
+  var API = 'https://pult-dlya-kolonki.tenylse.workers.dev';
+  var BOT = 'alisa_mozgi_dlya_kolonki_bot';
+  var KEY = 'mozgi_token';
+  var $ = function (id) { return document.getElementById(id); };
+  var screens = ['gate-login', 'gate-sub', 'gate-error', 'guide', 'gate-wait'];
+
+  function show(id) {
+    screens.forEach(function (s) { $(s).hidden = s !== id; });
+    var logged = id === 'guide' || id === 'gate-sub';
+    document.querySelector('.logout').hidden = !logged || inTg();
+    if (!logged && id !== 'gate-wait') $('kabinet').hidden = true;
+  }
+  function getToken() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+  function setToken(t) { try { t ? localStorage.setItem(KEY, t) : localStorage.removeItem(KEY); } catch (e) {} }
+  function inTg() { return !!(window.Telegram && Telegram.WebApp && Telegram.WebApp.initData); }
+
+  function request(path, opts) {
+    opts = opts || {};
+    var ctrl = new AbortController(); var timer = setTimeout(function () { ctrl.abort(); }, 15000);
+    return fetch(API + path, {
+      method: opts.body ? 'POST' : 'GET',
+      headers: Object.assign({ 'content-type': 'application/json' }, getToken() ? { authorization: 'Bearer ' + getToken() } : {}),
+      body: opts.body ? JSON.stringify(opts.body) : undefined,
+      signal: ctrl.signal,
+    }).then(function (r) { clearTimeout(timer); return r.json().then(function (d) { d.status = r.status; return d; }); });
+  }
+
+  function showLogin() {
+    show('gate-login');
+    var box = $('tg-login');
+    if (box.childElementCount) return;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://telegram.org/js/telegram-widget.js?22';
+    s.setAttribute('data-telegram-login', BOT);
+    s.setAttribute('data-size', 'large');
+    s.setAttribute('data-radius', '20');
+    // Режим «переход по ссылке»: надёжнее всплывающего окна (его ломают блокировщики и запрет сторонних cookie)
+    s.setAttribute('data-auth-url', location.origin + location.pathname);
+    s.setAttribute('data-request-access', 'write');
+    box.appendChild(s);
+  }
+
+  function showSubscribe(missing) {
+    var ul = document.querySelector('.gate-channels');
+    ul.innerHTML = '';
+    (missing || []).forEach(function (ch) {
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.className = 'btn ghost'; a.href = ch.url; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = 'Подписаться на ' + ch.name;
+      if (inTg()) a.addEventListener('click', function (e) { e.preventDefault(); Telegram.WebApp.openTelegramLink(ch.url); });
+      li.appendChild(a); ul.appendChild(li);
+    });
+    show('gate-sub');
+  }
+
+  function afterAuth(d) {
+    if (!d.ok) { setToken(null); return showLogin(); }
+    setToken(d.token);
+    loadCabinet();
+    return d.subscribed ? loadGuide() : showSubscribe(d.missing);
+  }
+
+  // ---------- Личный кабинет ----------
+  var AI = { gemini: 'Gemini', groq: 'Groq', openrouter: 'OpenRouter' };
+  function fmtDate(t) { return new Date(t * 1000).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }); }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+
+  function loadCabinet() {
+    request('/site/me').then(function (d) { if (d.ok) renderCabinet(d); }).catch(function () {});
+  }
+
+  function renderCabinet(d) {
+    $('kabinet').hidden = false;
+    document.querySelector('.cab-hello').textContent = 'Здравствуйте, ' + (d.name || 'друг') + '! С нами с ' + fmtDate(d.since) + '.';
+    var st = $('cab-status'); st.innerHTML = '';
+    if (d.skill) {
+      st.appendChild(el('h3', null, '🧠 Мозги установлены'));
+      var ul = el('ul', 'cab-facts');
+      ul.appendChild(el('li', null, 'С ' + fmtDate(d.skill.installedAt)));
+      ul.appendChild(el('li', null, 'Нейросети: ' + String(d.skill.providers || 'gemini, groq').split(',').map(function (x) { return AI[x.trim()] || x; }).join(', ')));
+      if (d.lastCheck) ul.appendChild(el('li', null, 'Последняя проверка: ' + (d.lastCheck.result === 'fail' ? '❌ не ответили' : '✅ ' + (AI[d.lastCheck.result] || 'работают')) + ', ' + fmtDate(d.lastCheck.ts)));
+      st.appendChild(ul);
+      var b = el('button', 'btn', 'Проверить мозги'); b.type = 'button';
+      var res = el('p', 'cab-result'); res.setAttribute('role', 'status');
+      b.addEventListener('click', function () {
+        b.disabled = true; res.textContent = '🩺 Задаю вашей Алисе тестовый вопрос…';
+        request('/site/check', { body: {} }).then(function (r) {
+          b.disabled = false;
+          res.textContent = r.ok ? '✅ Мозги работают! ' + (AI[r.provider] || '') + ' ответил за ' + (r.ms / 1000).toFixed(1) + ' с: «' + (r.answer || '').slice(0, 120) + '»'
+            : '❌ Не ответили (' + (r.error || 'ошибка') + '). Откройте бота → «Алиса» → «Проверить мозги» — там подсказки.';
+        }).catch(function () { b.disabled = false; res.textContent = 'Сервер не ответил, попробуйте ещё раз.'; });
+      });
+      st.appendChild(b); st.appendChild(res);
+      renderSettings(d);
+    } else {
+      st.appendChild(el('h3', null, '🫥 Мозги ещё не установлены'));
+      st.appendChild(el('p', null, 'Операция займёт около 10 минут. Бот проведёт по шагам, а здесь появятся настройки колонки.'));
+      var a = el('a', 'btn', 'Начать в боте'); a.href = d.bot + '?start=site_cab'; a.target = '_blank'; a.rel = 'noopener';
+      st.appendChild(a);
+      $('cab-settings').hidden = true;
+    }
+    $('cab-refs').textContent = d.refs;
+    var copy = $('cab-copy-ref');
+    copy.onclick = function () {
+      var done = function () { copy.textContent = 'Скопировано ✓'; setTimeout(function () { copy.textContent = 'Скопировать мою ссылку'; }, 1800); };
+      if (navigator.clipboard) navigator.clipboard.writeText(d.refLink).then(done, function () { prompt('Ваша ссылка:', d.refLink); }); else prompt('Ваша ссылка:', d.refLink);
+    };
+  }
+
+  function chip(text, active, onPick) {
+    var b = el('button', 'chip' + (active ? ' on' : ''), text); b.type = 'button';
+    b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', active ? 'true' : 'false');
+    b.addEventListener('click', onPick); return b;
+  }
+
+  function renderSettings(d) {
+    $('cab-settings').hidden = false;
+    var box = $('cab-personas'); box.innerHTML = '';
+    var cur = d.skill.persona;
+    if (cur === 'custom') box.appendChild(chip('✍️ Свой (меняется в боте)', true, function () {}));
+    d.personas.forEach(function (p) {
+      box.appendChild(chip(p.title, p.key === cur, function () { save({ persona: p.key }, function () { d.skill.persona = p.key; renderSettings(d); }); }));
+    });
+    var pr = $('cab-primary'); pr.innerHTML = '';
+    ['gemini', 'groq'].forEach(function (k) {
+      pr.appendChild(chip(AI[k] + (k === 'gemini' ? ' (умнее)' : ' (быстрее)'), d.skill.primary === k, function () { save({ primary: k }, function () { d.skill.primary = k; renderSettings(d); }); }));
+    });
+  }
+
+  function save(patch, then) {
+    $('cab-saved').textContent = 'Сохраняю…';
+    request('/site/settings', { body: patch }).then(function (r) {
+      $('cab-saved').textContent = r.ok ? '✅ Сохранено. Колонка подхватит в течение минуты.' : 'Не сохранилось, попробуйте ещё раз.';
+      if (r.ok) then();
+    }).catch(function () { $('cab-saved').textContent = 'Сервер не ответил.'; });
+  }
+
+  window.mozgiAuth = function (user) {
+    show('gate-wait');
+    request('/site/auth', { body: { user: user } }).then(afterAuth).catch(function () { show('gate-error'); });
+  };
+
+  function loadGuide() {
+    show('gate-wait');
+    return request('/site/guide').then(function (d) {
+      if (d.ok) return renderGuide(d.steps);
+      if (d.error === 'subscribe') return showSubscribe(d.missing);
+      setToken(null); showLogin();
+    }).catch(function () { show('gate-error'); });
+  }
+
+  function renderGuide(steps) {
+    var toc = $('guide-toc'), box = $('guide-steps');
+    toc.innerHTML = ''; box.innerHTML = '';
+    steps.forEach(function (s) {
+      var li = document.createElement('li');
+      li.innerHTML = '<a href="#step-' + s.key + '"></a>';
+      li.firstChild.textContent = s.title.replace(/^[^\wА-Яа-яЁё]+/, '');
+      toc.appendChild(li);
+      var art = document.createElement('article');
+      art.className = 'step' + (s.image ? '' : ' no-image');
+      art.id = 'step-' + s.key;
+      var text = document.createElement('div');
+      text.className = 'step-text';
+      text.innerHTML = s.html; // HTML из пульта (только b/i/a/code из Телеграма)
+      text.querySelectorAll('a').forEach(function (a) { a.target = '_blank'; a.rel = 'noopener'; });
+      art.appendChild(text);
+      if (s.image) {
+        var fig = document.createElement('figure');
+        fig.innerHTML = '<a target="_blank" rel="noopener"><img loading="lazy" alt=""></a><figcaption>Нажмите, чтобы открыть крупно</figcaption>';
+        fig.querySelector('a').href = s.image;
+        var img = fig.querySelector('img'); img.src = s.image; img.alt = 'Скриншот: ' + s.title;
+        art.appendChild(fig);
+      }
+      box.appendChild(art);
+    });
+    show('guide');
+  }
+
+  $('recheck').addEventListener('click', function () {
+    $('recheck-msg').textContent = 'Проверяем…';
+    request('/site/guide').then(function (d) {
+      if (d.ok) return renderGuide(d.steps);
+      $('recheck-msg').textContent = d.error === 'subscribe' ? 'Пока не видим подписку. Подпишитесь и нажмите ещё раз через пару секунд.' : 'Войдите заново.';
+      if (d.error !== 'subscribe') { setToken(null); showLogin(); }
+    }).catch(function () { show('gate-error'); });
+  });
+  document.querySelector('.logout').addEventListener('click', function () { setToken(null); showLogin(); });
+
+  // Старт: Mini App входит сам; на сайте — возврат от Telegram (?id=…&hash=…), сохранённый пропуск или кнопка
+  var qs = new URLSearchParams(location.search);
+  if (inTg()) {
+    request('/site/auth', { body: { initData: Telegram.WebApp.initData } }).then(afterAuth).catch(function () { show('gate-error'); });
+  } else if (qs.get('hash') && qs.get('id')) {
+    var user = {};
+    ['id', 'first_name', 'last_name', 'username', 'photo_url', 'auth_date', 'hash'].forEach(function (k) { if (qs.get(k) != null) user[k] = qs.get(k); });
+    history.replaceState(null, '', location.pathname + location.hash);
+    window.mozgiAuth(user);
+  } else if (getToken()) {
+    loadCabinet();
+    loadGuide();
+  } else {
+    showLogin();
+  }
+})();

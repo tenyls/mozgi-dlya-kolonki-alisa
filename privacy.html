@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Политика конфиденциальности — Мозги для колонки</title>
+<style>
+  :root { --bg:#faf8ff; --fg:#1e1b4b; --muted:#5b5689; --accent:#7c3aed; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#14122b; --fg:#f1efff; --muted:#b7b2e0; --accent:#a78bfa; } }
+  body { margin:0; background:var(--bg); color:var(--fg); font:17px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }
+  main { max-width:720px; margin:0 auto; padding:32px 16px 64px; }
+  img { width:72px; border-radius:18px; }
+  h1 { font-size:28px; margin:12px 0 4px; }
+  h2 { font-size:20px; margin-top:28px; }
+  p, li { color:var(--muted); }
+  a { color:var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <img src="/logo-512.png" alt="">
+  <h1>Политика конфиденциальности</h1>
+  <p>Бот «Мозги для колонки с Алисой» (@alisa_mozgi_dlya_kolonki_bot) и связанные сервисы. Неофициальный проект, не связан с Яндексом.</p>
+
+  <h2>Что мы сохраняем</h2>
+  <ul>
+    <li>Данные вашего профиля Telegram: ID, имя, @ник, язык, наличие Premium.</li>
+    <li>Когда вы начали пользоваться ботом, откуда пришли (метка ссылки) и какие разделы открывали — чтобы улучшать бота.</li>
+    <li>Если вы установили «мозги»: адрес вашего сервера на Vercel, выбранный характер и основную нейросеть.</li>
+    <li>Если вы поддержали автора звёздами — сумму и дату.</li>
+  </ul>
+
+  <h2>Чего мы не храним</h2>
+  <ul>
+    <li><b>Ваши ключи нейросетей (Gemini, Groq) и ключ Vercel.</b> На время настройки они хранятся в зашифрованном виде и удаляются сразу после установки (или через 3 часа, если настройка не завершена). Постоянно ключи хранятся только в вашем личном аккаунте Vercel.</li>
+    <li>Ваши разговоры с колонкой. Они идут напрямую с вашего сервера к нейросети и у нас не сохраняются.</li>
+  </ul>
+
+  <h2>Сторонние сервисы</h2>
+  <p>Ответы колонке готовят нейросети Google Gemini, Groq и (по желанию) OpenRouter — по их правилам. На бесплатных тарифах эти сервисы могут использовать запросы для улучшения своих моделей. Сервер вашей колонки работает в вашем аккаунте Vercel.</p>
+
+  <h2>Удаление данных</h2>
+  <p>Чтобы удалить свои данные, напишите автору через канал <a href="https://t.me/alisa_mozgi_dlya_kolonki">@alisa_mozgi_dlya_kolonki</a>. Сервер с ключами вы можете удалить сами в своём аккаунте Vercel (проект <code>mozgi-dlya-kolonki</code>).</p>
+
+  <h2>Контакты</h2>
+  <p>Канал проекта: <a href="https://t.me/alisa_mozgi_dlya_kolonki">t.me/alisa_mozgi_dlya_kolonki</a></p>
+</main>
+</body>
+</html>
