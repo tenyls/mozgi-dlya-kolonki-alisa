@@ -21,6 +21,7 @@
   <a class="brand" href="./"><img src="img/logo-512.png" alt="" width="40" height="40">Мозги для колонки</a>
   <nav aria-label="Разделы">
     <a href="./">Главная</a>
+    <a href="idei.html">Идеи</a>
     <button class="logout" type="button" hidden>Выйти</button>
     <a class="btn small" data-bot href="https://t.me/alisa_mozgi_dlya_kolonki_bot?start=site_guide">Открыть бота</a>
   </nav>
@@ -43,6 +44,16 @@
         <li>Готово: протокол откроется здесь же.</li>
       </ol>
       <div id="tg-login" class="tg-login"></div>
+      <details class="pass-login">
+        <summary>Войти по логину и паролю</summary>
+        <form id="pass-form" class="pass-form">
+          <label>Логин <input name="login" autocomplete="username" required minlength="3" maxlength="32"></label>
+          <label>Пароль <input name="password" type="password" autocomplete="current-password" required minlength="8"></label>
+          <button class="btn small" type="submit">Войти</button>
+          <p class="gate-small" id="pass-msg" role="status"></p>
+        </form>
+        <p class="gate-small">Логин и пароль задаются в личном кабинете после первого входа через Telegram. Пригодится, если Telegram недоступен.</p>
+      </details>
       <p class="gate-small">Мы получим только ваше имя и ник в Telegram. Ключи и пароли сайт не спрашивает никогда.</p>
     </div>
   </section>
@@ -89,6 +100,16 @@
         <h3>⭐ Избранное: что сказать Алисе</h3>
         <p class="gate-small">Отмечайте звёздочкой полезные команды — они появятся сверху и в боте («Алиса» → «⭐ Моё избранное»).</p>
         <ul class="tricks" id="cab-tricks"></ul>
+      </div>
+      <div class="cab-card" id="cab-pass">
+        <h3>🔑 Вход по паролю</h3>
+        <p class="gate-small" id="cab-pass-state">Задайте логин и пароль — сможете входить на сайт и без Telegram.</p>
+        <form id="cab-pass-form" class="pass-form">
+          <label>Логин <input name="login" autocomplete="username" required minlength="3" maxlength="32" placeholder="латиница и цифры"></label>
+          <label>Пароль <input name="password" type="password" autocomplete="new-password" required minlength="8" placeholder="от 8 символов"></label>
+          <button class="btn small ghost" type="submit">Сохранить</button>
+          <p class="gate-small" id="cab-pass-msg" role="status"></p>
+        </form>
       </div>
       <div class="cab-card" id="cab-invite">
         <h3>Пригласить друга</h3>

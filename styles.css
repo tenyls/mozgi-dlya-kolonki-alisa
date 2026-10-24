@@ -274,3 +274,25 @@ footer a { color: var(--ink); }
 .trick-link { font-size: 14px; }
 .star { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--ink); background: var(--paper); font-size: 20px; line-height: 1; cursor: pointer; color: var(--ink); }
 .trick.fav .star { background: var(--hazard); }
+
+/* ---------- идеи ---------- */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 20px; }
+.idea-group { padding-block: 20px 8px; }
+.idea-group h2 { font-size: clamp(24px, 3.4vw, 34px); }
+.ideas { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.idea { position: relative; background: var(--paper); border: 2px solid var(--ink); border-radius: 20px; padding: 20px 20px 18px; display: flex; flex-direction: column; }
+.idea-emoji { font-size: 34px; line-height: 1; margin-bottom: 10px; }
+.idea h3 { font: 700 19px/1.25 var(--display); margin: 0 0 6px; }
+.idea p { margin: 0 0 10px; font-size: 16px; color: var(--ink-soft); }
+.idea details { margin: 0 0 14px; font-size: 15px; }
+.idea summary { cursor: pointer; font-weight: 600; color: var(--violet); }
+.idea blockquote { margin: 8px 0 0; padding: 10px 12px; background: #f1f7f4; border-left: 4px solid var(--brain); border-radius: 8px; }
+.idea-actions { margin-top: auto; display: flex; flex-wrap: wrap; gap: 8px; }
+.idea-actions .btn { white-space: normal; }
+.pass-login { margin-top: 16px; }
+.pass-login summary { cursor: pointer; font-weight: 600; color: var(--violet); }
+.pass-form { display: grid; gap: 10px; margin-top: 12px; max-width: 360px; }
+.pass-form label { display: grid; gap: 4px; font-weight: 600; font-size: 15px; }
+.pass-form input { font: 400 17px var(--body); padding: 10px 12px; border: 2px solid var(--ink); border-radius: 12px; background: #fff; color: var(--ink); }
+.pass-form input:focus-visible { outline: 3px solid var(--violet); outline-offset: 1px; }
+.pass-form .btn { justify-self: start; }

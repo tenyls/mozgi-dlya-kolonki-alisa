@@ -105,6 +105,7 @@
       $('cab-settings').hidden = true;
     }
     renderTricks(d.tricks || []);
+    if (d.login) { $('cab-pass-state').textContent = 'Ваш логин: ' + d.login + '. Можно сменить пароль ниже.'; $('cab-pass-form').login.value = d.login; }
     $('cab-refs').textContent = d.refs;
     var copy = $('cab-copy-ref');
     copy.onclick = function () {
@@ -220,6 +221,22 @@
       $('recheck-msg').textContent = d.error === 'subscribe' ? 'Пока не видим подписку. Подпишитесь и нажмите ещё раз через пару секунд.' : 'Войдите заново.';
       if (d.error !== 'subscribe') { setToken(null); showLogin(); }
     }).catch(function () { show('gate-error'); });
+  });
+  $('pass-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = e.target; $('pass-msg').textContent = 'Проверяем…';
+    request('/site/login', { body: { login: f.login.value, password: f.password.value } }).then(function (d) {
+      if (d.ok) { f.reset(); return afterAuth(d); }
+      $('pass-msg').textContent = d.error === 'too_many' ? 'Слишком много попыток. Подождите 15 минут.' : 'Неверный логин или пароль.';
+    }).catch(function () { $('pass-msg').textContent = 'Сервер не ответил.'; });
+  });
+  $('cab-pass-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = e.target; $('cab-pass-msg').textContent = 'Сохраняю…';
+    request('/site/password', { body: { login: f.login.value, password: f.password.value } }).then(function (d) {
+      $('cab-pass-msg').textContent = d.ok ? '✅ Готово! Теперь можно входить по логину ' + d.login + '.' : (d.error || 'Не получилось.');
+      if (d.ok) { f.password.value = ''; $('cab-pass-state').textContent = 'Ваш логин: ' + d.login + '.'; }
+    }).catch(function () { $('cab-pass-msg').textContent = 'Сервер не ответил.'; });
   });
   $('guide-login-btn').addEventListener('click', function () { showLogin(); window.scrollTo(0, 0); });
   document.querySelector('.logout').addEventListener('click', function () { setToken(null); showLogin(); });
