@@ -104,6 +104,7 @@
       st.appendChild(a);
       $('cab-settings').hidden = true;
     }
+    renderTricks(d.tricks || []);
     $('cab-refs').textContent = d.refs;
     var copy = $('cab-copy-ref');
     copy.onclick = function () {
@@ -111,6 +112,36 @@
       if (navigator.clipboard) navigator.clipboard.writeText(d.refLink).then(done, function () { prompt('Ваша ссылка:', d.refLink); }); else prompt('Ваша ссылка:', d.refLink);
     };
   }
+
+  function renderTricks(list) {
+    var ul = $('cab-tricks'); ul.innerHTML = '';
+    list.slice().sort(function (a, b) { return (b.fav ? 1 : 0) - (a.fav ? 1 : 0); }).forEach(function (t) {
+      var li = el('li', 'trick' + (t.fav ? ' fav' : ''));
+      var star = el('button', 'star', t.fav ? '★' : '☆'); star.type = 'button';
+      star.setAttribute('aria-pressed', t.fav ? 'true' : 'false');
+      star.setAttribute('aria-label', (t.fav ? 'Убрать из избранного: ' : 'В избранное: ') + t.title);
+      star.addEventListener('click', function () {
+        star.disabled = true;
+        request('/site/fav', { body: { id: t.id, fav: !t.fav } }).then(function (r) {
+          star.disabled = false; if (r.ok) { t.fav = !t.fav; renderTricks(list); }
+        }).catch(function () { star.disabled = false; });
+      });
+      var body = el('div', 'trick-body');
+      body.appendChild(el('b', null, t.title));
+      if (t.phrase) body.appendChild(el('span', 'phrase', t.phrase.replace(/&laquo;|&raquo;/g, '')));
+      li.appendChild(star); li.appendChild(body);
+      if (t.url) { var a = el('a', 'trick-link', 'Подробнее'); a.href = t.url; a.target = '_blank'; a.rel = 'noopener'; li.appendChild(a); }
+      ul.appendChild(li);
+    });
+  }
+
+  // Установка сайта как приложения (PWA)
+  var installEvt = null;
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault(); installEvt = e;
+    $('cab-install').hidden = false; $('cab-install-alt').hidden = true;
+  });
+  $('cab-install').addEventListener('click', function () { if (installEvt) { installEvt.prompt(); installEvt = null; $('cab-install').hidden = true; } });
 
   function chip(text, active, onPick) {
     var b = el('button', 'chip' + (active ? ' on' : ''), text); b.type = 'button';
@@ -190,6 +221,7 @@
       if (d.error !== 'subscribe') { setToken(null); showLogin(); }
     }).catch(function () { show('gate-error'); });
   });
+  $('guide-login-btn').addEventListener('click', function () { showLogin(); window.scrollTo(0, 0); });
   document.querySelector('.logout').addEventListener('click', function () { setToken(null); showLogin(); });
 
   // Старт: Mini App входит сам; на сайте — возврат от Telegram (?id=…&hash=…), сохранённый пропуск или кнопка
@@ -205,6 +237,7 @@
     loadCabinet();
     loadGuide();
   } else {
-    showLogin();
+    // Инструкция может быть открыта всем (если так включено в пульте)
+    request('/site/guide').then(function (d) { if (d.ok) { renderGuide(d.steps); $('guide-login').hidden = false; } else showLogin(); }).catch(showLogin);
   }
 })();

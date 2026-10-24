@@ -1,5 +1,5 @@
 // Офлайн-копия сайта (PWA). При обновлении сайта поменяйте VERSION.
-const VERSION = 'mozgi-4';
+const VERSION = 'mozgi-5';
 const FILES = ['./', 'index.html', 'instrukciya.html', 'styles.css', 'app.js', 'guide.js', 'manifest.webmanifest', 'img/logo-512.png', 'img/logo.svg'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(VERSION).then(c => c.addAll(FILES))); self.skipWaiting(); });
 self.addEventListener('activate', e => {

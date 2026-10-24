@@ -74,6 +74,7 @@
     <div class="cab-head">
       <h2>Карта пациентки</h2>
       <p class="cab-hello"></p>
+      <p class="cab-tip">📌 Добавьте эту страницу в закладки или <button type="button" class="linkish" id="cab-install" hidden>установите как приложение</button><span id="cab-install-alt">установите на телефон как приложение (меню браузера → «На главный экран»)</span> — ваша Алиса всегда будет под рукой. А в Telegram кабинет открывается кнопкой «🧠 Кабинет» в боте.</p>
     </div>
     <div class="cab-grid">
       <div class="cab-card" id="cab-status"></div>
@@ -83,6 +84,11 @@
         <h3>Основная нейросеть</h3>
         <div class="chips" id="cab-primary" role="radiogroup" aria-label="Основная нейросеть"></div>
         <p class="gate-small" id="cab-saved" role="status"></p>
+      </div>
+      <div class="cab-card cab-wide" id="cab-favs">
+        <h3>⭐ Избранное: что сказать Алисе</h3>
+        <p class="gate-small">Отмечайте звёздочкой полезные команды — они появятся сверху и в боте («Алиса» → «⭐ Моё избранное»).</p>
+        <ul class="tricks" id="cab-tricks"></ul>
       </div>
       <div class="cab-card" id="cab-invite">
         <h3>Пригласить друга</h3>
@@ -95,6 +101,7 @@
   <!-- 4. Инструкция -->
   <section id="guide" hidden>
     <h2 class="guide-title">Протокол операции по шагам</h2>
+    <p class="warn" id="guide-login" hidden>Хотите личный кабинет — проверку мозгов, характер и избранное? <button type="button" class="linkish" id="guide-login-btn">Войдите через Telegram</button>.</p>
     <p class="warn">Кнопки «📋 Скопировать» и ваш личный адрес сервера — в боте. Удобно: бот в телефоне, а эта страница на компьютере.</p>
     <ul class="toc" id="guide-toc" aria-label="Шаги"></ul>
     <div id="guide-steps"></div>

@@ -263,3 +263,14 @@ footer a { color: var(--ink); }
 .chip:focus-visible { outline: 3px solid var(--violet); outline-offset: 2px; }
 .guide-title { margin-top: 12px; }
 @media (max-width: 860px) { .cab-grid { grid-template-columns: 1fr; } #cab-status { grid-row: auto; } }
+.cab-tip { margin: -10px 0 22px; font-size: 15px; color: var(--ink-soft); max-width: 60em; }
+.linkish { background: none; border: 0; padding: 0; font: inherit; color: var(--violet); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.cab-wide { grid-column: 1 / -1; }
+.tricks { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px; }
+.trick { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; padding: 10px 12px; border: 2px solid var(--line); border-radius: 14px; background: #fff; }
+.trick.fav { border-color: var(--ink); background: #fff4f8; }
+.trick-body { display: grid; gap: 2px; font-size: 15px; }
+.trick-body .phrase { color: var(--ink-soft); font-size: 14px; }
+.trick-link { font-size: 14px; }
+.star { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--ink); background: var(--paper); font-size: 20px; line-height: 1; cursor: pointer; color: var(--ink); }
+.trick.fav .star { background: var(--hazard); }
