@@ -251,6 +251,12 @@
       text.className = 'step-text';
       text.innerHTML = s.html; // HTML из пульта (только b/i/a/code из Телеграма)
       text.querySelectorAll('a').forEach(function (a) { a.target = '_blank'; a.rel = 'noopener'; });
+      if (s.key === 'gemini') {
+        var help = document.createElement('p');
+        help.className = 'warn';
+        help.innerHTML = '🆘 Google не даёт создать ключ (permission denied, Unsupported country)? <a href="gemini-help.html">Что делать — инструкция</a>. Или просто пропустите Gemini в боте — мозги будут работать на Groq.';
+        text.appendChild(help);
+      }
       art.appendChild(text);
       if (s.image) {
         var fig = document.createElement('figure');
