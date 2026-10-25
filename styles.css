@@ -306,3 +306,6 @@ footer a { color: var(--ink); }
 .steps-mini li.done { color: var(--ink); }
 .steps-mini li.done::before { content: '✓'; background: var(--brain); }
 .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+.memlist { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 8px; }
+.mem { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: center; padding: 10px 12px; background: #fff; border: 2px solid var(--line); border-radius: 14px; }
+.mem small { color: var(--ink-soft); font-size: 13px; }

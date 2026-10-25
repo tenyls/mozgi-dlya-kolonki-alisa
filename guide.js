@@ -126,6 +126,7 @@
       $('cab-settings').hidden = true;
     }
     renderTricks(d.tricks || []);
+    renderMemory(d.memories || []);
     if (d.login) { $('cab-pass-state').textContent = 'Ваш логин: ' + d.login + '. Можно сменить пароль ниже.'; $('cab-pass-form').login.value = d.login; }
     $('cab-refs').textContent = d.refs;
     var copy = $('cab-copy-ref');
@@ -154,6 +155,22 @@
       li.appendChild(star); li.appendChild(body);
       if (t.url) { var a = el('a', 'trick-link', 'Подробнее'); a.href = t.url; a.target = '_blank'; a.rel = 'noopener'; li.appendChild(a); }
       ul.appendChild(li);
+    });
+  }
+
+  function renderMemory(list) {
+    var ul = $('cab-mem'); ul.innerHTML = '';
+    if (!list.length) { ul.appendChild(el('li', 'gate-small', 'Пока ничего не запомнено.')); return; }
+    list.forEach(function (m) {
+      var li = el('li', 'mem');
+      li.appendChild(el('span', null, m.text));
+      li.appendChild(el('small', null, fmtDate(m.ts)));
+      var del = el('button', 'star', '✕'); del.type = 'button'; del.setAttribute('aria-label', 'Забыть: ' + m.text);
+      del.addEventListener('click', function () {
+        del.disabled = true;
+        request('/site/memdel', { body: { id: m.id } }).then(function () { renderMemory(list.filter(function (x) { return x !== m; })); }).catch(function () { del.disabled = false; });
+      });
+      li.appendChild(del); ul.appendChild(li);
     });
   }
 
