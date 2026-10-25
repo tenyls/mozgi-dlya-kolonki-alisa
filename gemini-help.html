@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Не получается ключ Gemini — Мозги для колонки</title>
+<meta name="description" content="Что делать, если Google AI Studio не даёт создать ключ Gemini: ошибка permission denied, Unsupported country, аккаунт привязан к России.">
+<meta name="theme-color" content="#d6efe6">
+<link rel="icon" href="img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="img/logo-512.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;600;700&family=Unbounded:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="https://telegram.org/js/telegram-web-app.js" defer></script>
+<style>
+  .help-card { background: #fff; border: 2px solid #26163f; border-radius: 20px; padding: 20px 22px; margin: 18px 0; box-shadow: 4px 4px 0 #26163f; }
+  .help-card h2 { margin-top: 0; font-size: 1.25rem; }
+  .help-card ol, .help-card ul { padding-left: 1.2em; }
+  .help-card li { margin: 6px 0; }
+  .help-card .tag { display: inline-block; background: #ffd23f; border: 2px solid #26163f; border-radius: 999px; padding: 2px 10px; font-size: .85rem; font-weight: 700; margin-bottom: 8px; }
+  .errs code { background: #f2eaff; padding: 2px 6px; border-radius: 6px; }
+  .help-card .btn { margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="./"><img src="img/logo-512.png" alt="" width="40" height="40">Мозги для колонки</a>
+  <nav aria-label="Разделы">
+    <a href="./">Главная</a>
+    <a href="instrukciya.html">Инструкция</a>
+    <a class="btn small" data-bot href="https://t.me/alisa_mozgi_dlya_kolonki_bot?start=site_gemini">Открыть бота</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="doc-head">
+    <p class="lab-sign">Справка лаборатории</p>
+    <h1>Не получается ключ Gemini?</h1>
+    <p class="lead">Google AI Studio не даёт создать ключ — разбираемся, почему так бывает и как всё равно поставить колонке мозги.</p>
+  </div>
+
+  <section class="help-card errs">
+    <h2>Узнаёте эти ошибки?</h2>
+    <ul>
+      <li><code>Failed to create project: permission denied</code></li>
+      <li><code>No Cloud Projects Available</code> — кнопка Create key серая</li>
+      <li><code>Unsupported country</code> или «Сервис недоступен в вашей стране»</li>
+    </ul>
+    <p>Почти всегда причина одна: <b>Google считает ваш аккаунт российским</b>. Страну он выбирает сам — по тому, откуда вы заходили в аккаунт за последний год. Поэтому включённый VPN уже не помогает: дело не в адресе, а в «прописке» аккаунта.</p>
+  </section>
+
+  <section class="help-card">
+    <span class="tag">Самый простой</span>
+    <h2>1. Пропустите Gemini — хватит одного Groq</h2>
+    <p>Мозги прекрасно работают и без Gemini: в боте на шаге «Ключ Gemini» нажмите <b>«⏭ Пропустить Gemini — только Groq»</b>. Колонка будет отвечать через Groq (умная модель Llama 70B, отвечает быстро).</p>
+    <p>Gemini можно добавить позже: когда появится ключ, нажмите в боте «🔁 Установить заново».</p>
+    <a class="btn small" data-bot href="https://t.me/alisa_mozgi_dlya_kolonki_bot?start=site_gemini">Открыть бота</a>
+  </section>
+
+  <section class="help-card">
+    <span class="tag">Бесплатно · 1–2 дня</span>
+    <h2>2. Смените страну аккаунта Google</h2>
+    <ol>
+      <li>Включите VPN. Откройте <a href="https://whoer.net" target="_blank" rel="noopener">whoer.net</a> и посмотрите, какую страну он показывает (ориентируйтесь на строку DNS).</li>
+      <li>Откройте <a href="https://policies.google.com/country-association-form" target="_blank" rel="noopener">форму смены страны Google</a> и войдите своим аккаунтом.</li>
+      <li>Выберите эту страну (например, США или Германию) и город.</li>
+      <li>Отметьте две галочки: «Я живу в одной стране, а работаю или учусь в другой» и «Я часто путешествую». Отправьте.</li>
+      <li>Ответ приходит на почту — от пары часов до 1–2 дней.</li>
+      <li>Пришёл отказ — это нормально, так бывает часто. Подайте форму ещё раз, выберите <b>«Другая причина»</b> и коротко напишите по-английски, что работаете удалённо и часто бываете в разных странах. Подавать можно несколько раз.</li>
+    </ol>
+    <p>Когда страна сменится, снова откройте <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Google AI Studio</a> и создайте ключ по инструкции в боте.</p>
+    <a class="btn small ghost" href="https://policies.google.com/country-association-form" target="_blank" rel="noopener">Форма смены страны</a>
+  </section>
+
+  <section class="help-card">
+    <span class="tag">Быстро</span>
+    <h2>3. Возьмите другой аккаунт Google</h2>
+    <ul>
+      <li><b>Попросите знакомого за границей</b> создать аккаунт со своего телефона и передать вам вход.</li>
+      <li><b>Зарегистрируйте новый аккаунт с VPN</b> на <a href="https://accounts.google.com/signup" target="_blank" rel="noopener">accounts.google.com/signup</a>, подтвердив зарубежным номером из сервиса аренды номеров (например, <a href="https://smsfast.io/" target="_blank" rel="noopener">smsfast.io</a>). Не добавляйте в такой аккаунт российский номер +7.</li>
+      <li><b>Купите готовый зарубежный аккаунт</b> на маркетплейсе (например, <a href="https://ggsel.net/catalog/gmail-accounts" target="_blank" rel="noopener">ggsel.net</a>, от ~50 ₽). Продавец присылает «почта | пароль | ключ 2FA». При входе Google спросит код: вставьте ключ 2FA на <a href="https://2fa.live/" target="_blank" rel="noopener">2fa.live</a> и возьмите последние 6 цифр. Сразу смените пароль и добавьте свою резервную почту.</li>
+    </ul>
+    <p class="gate-small">⚠️ Покупка у сторонних продавцов — на ваш риск: мы с ними не связаны.</p>
+  </section>
+
+  <section class="help-card">
+    <h2>Ещё пара проверок</h2>
+    <ul>
+      <li>В аккаунте Google должен быть указан возраст <b>18+</b>, иначе AI Studio закрыт.</li>
+      <li>Ключ Gemini нужен только на время настройки. После неё колонка работает в России <b>без VPN</b>: колонка → Яндекс → ваш сервер → нейросеть.</li>
+      <li>Ваш ключ мы не храним: он уходит прямо на ваш сервер.</li>
+    </ul>
+  </section>
+
+  <div class="final">
+    <h2>Вернуться к настройке</h2>
+    <p class="sub">Бот проведёт по шагам и проверит, что мозги заработали.</p>
+    <div class="cta-row"><a class="btn" data-bot href="https://t.me/alisa_mozgi_dlya_kolonki_bot?start=site_gemini">Открыть бота</a></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap row">
+    <p class="disclaimer">Неофициальный проект, не связан с Яндексом и Google.</p>
+    <p><a href="./">Главная</a> · <a href="privacy.html">Конфиденциальность</a> · <a href="terms.html">Условия</a> · <a href="https://t.me/alisa_mozgi_dlya_kolonki?direct" target="_blank" rel="noopener">Реклама и сотрудничество</a></p>
+  </div>
+</footer>
+
+<script src="app.js" defer></script>
+</body>
+</html>
