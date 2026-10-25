@@ -104,6 +104,12 @@
       var ul = el('ul', 'cab-facts');
       ul.appendChild(el('li', null, 'С ' + fmtDate(d.skill.installedAt)));
       ul.appendChild(el('li', null, 'Нейросети: ' + String(d.skill.providers || 'gemini, groq').split(',').map(function (x) { return AI[x.trim()] || x; }).join(', ')));
+      if (d.skill.old) {
+        var up = el('li', 'cab-update');
+        up.appendChild(el('b', null, '⬆️ Доступны новые мозги ' + d.skill.latest + ' (у вас ' + d.skill.version + '). '));
+        up.appendChild(document.createTextNode(d.skill.news.replace(/\n/g, ' · ') + '. Обновить: в боте «Алиса» → «⬆️ Обновить мозги» — минута, ключи вводить не нужно.'));
+        ul.appendChild(up);
+      } else ul.appendChild(el('li', null, 'Версия мозгов: ' + d.skill.version + ' — последняя ✅'));
       if (d.stats) ul.appendChild(el('li', null, 'С мозгами ' + d.stats.days + ' дн. · в памяти ' + d.stats.memories + ' · отправлено в Телеграм ' + d.stats.voice + ' · проверок ' + d.stats.checks));
       if (d.lastCheck) ul.appendChild(el('li', null, 'Последняя проверка: ' + (d.lastCheck.result === 'fail' ? '❌ не ответили' : '✅ ' + (AI[d.lastCheck.result] || 'работают')) + ', ' + fmtDate(d.lastCheck.ts)));
       st.appendChild(ul);
