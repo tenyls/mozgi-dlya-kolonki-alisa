@@ -310,3 +310,14 @@ footer a { color: var(--ink); }
 .mem { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: center; padding: 10px 12px; background: #fff; border: 2px solid var(--line); border-radius: 14px; }
 .mem small { color: var(--ink-soft); font-size: 13px; }
 .chip.locked { opacity: .6; border-style: dashed; }
+
+/* ---------- игра ---------- */
+.game-card { max-width: 720px; background: var(--paper); border: 2px solid var(--ink); border-radius: var(--r-big); padding: 26px; box-shadow: 8px 8px 0 var(--ink); margin-bottom: 18px; display: grid; gap: 14px; }
+.game-progress { margin: 0; font-weight: 600; color: var(--ink-soft); font-size: 15px; }
+.game-q { justify-self: end; font-size: 18px; }
+.game-a { justify-self: start; font-size: 18px; background: #fff; }
+.game-choices { display: flex; flex-wrap: wrap; gap: 10px; }
+.game-choices .btn.right { background: #c9f2d9; }
+.game-choices .btn.wrong { background: #ffd6dc; }
+.game-why { margin: 0; padding: 12px 14px; background: #f1f7f4; border-left: 4px solid var(--brain); border-radius: 8px; }
+#g-next { justify-self: start; }

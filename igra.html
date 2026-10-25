@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Игра «Глупая или умная?» — Мозги для колонки</title>
+<meta name="description" content="Угадайте, кто ответил: обычная Алиса или Алиса с мозгами-нейросетью. 10 вопросов, смешные ответы.">
+<meta name="theme-color" content="#d6efe6">
+<link rel="icon" href="img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="img/logo-512.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta property="og:title" content="Глупая или умная? Угадай, кто ответил">
+<meta property="og:description" content="10 вопросов колонке с Алисой. Сколько угадаете вы?">
+<meta property="og:image" content="https://tenyls.github.io/mozgi-dlya-kolonki-alisa/img/banner.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;600;700&family=Unbounded:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="https://telegram.org/js/telegram-web-app.js" defer></script>
+</head>
+<body>
+<header class="wrap top">
+  <a class="brand" href="./"><img src="img/logo-512.png" alt="" width="40" height="40">Мозги для колонки</a>
+  <nav aria-label="Разделы">
+    <a href="./">Главная</a>
+    <a href="idei.html">Идеи</a>
+    <a class="btn small" data-bot href="https://t.me/alisa_mozgi_dlya_kolonki_bot?start=site_game">Открыть бота</a>
+  </nav>
+</header>
+<main class="wrap game">
+  <div class="doc-head">
+    <p class="lab-sign">Игра лаборатории</p>
+    <h1>Глупая или умная?</h1>
+    <p class="lead">Колонке задали вопрос. Угадайте, кто ответил: обычная Алиса, Алиса с мозгами — или с таким справятся обе. 10 вопросов.</p>
+  </div>
+
+  <section class="game-card" id="game" aria-live="polite">
+    <p class="game-progress" id="g-progress"></p>
+    <p class="q game-q" id="g-q"></p>
+    <p class="a game-a" id="g-a"></p>
+    <div class="game-choices" id="g-choices">
+      <button class="btn ghost" type="button" data-pick="dumb">🙃 Глупая</button>
+      <button class="btn ghost" type="button" data-pick="smart">🧠 Умная</button>
+      <button class="btn ghost" type="button" data-pick="both">🤝 Обе могут</button>
+    </div>
+    <p class="game-why" id="g-why" hidden></p>
+    <button class="btn" type="button" id="g-next" hidden>Дальше</button>
+  </section>
+
+  <section class="game-card" id="result" hidden>
+    <h2 id="r-title"></h2>
+    <p class="lead" id="r-text"></p>
+    <div class="cta-row">
+      <a class="btn" data-bot href="https://t.me/alisa_mozgi_dlya_kolonki_bot?start=site_game">Хочу колонку с мозгами</a>
+      <a class="btn ghost" id="r-share" target="_blank" rel="noopener">Поделиться результатом</a>
+      <button class="btn ghost" type="button" id="r-again">Сыграть ещё</button>
+    </div>
+  </section>
+  <p class="versus-foot">Ответы — реконструкция по мотивам реальных разговоров. Ни одна колонка не пострадала.</p>
+</main>
+<footer>
+  <div class="wrap row">
+    <p class="disclaimer">Неофициальный проект, не связан с Яндексом.</p>
+    <p><a href="./">Главная</a> · <a href="privacy.html">Конфиденциальность</a> · <a href="terms.html">Условия</a> · <a href="https://t.me/alisa_mozgi_dlya_kolonki?direct" target="_blank" rel="noopener">Реклама и сотрудничество</a></p>
+  </div>
+</footer>
+<script src="app.js" defer></script>
+<script>
+(function () {
+  var ROUNDS = [
+    ['Почему кошки мурчат?', 'Вот что я нашла в интернете.', 'dumb', 'Классика жанра: обычная Алиса отправляет «в интернет». С мозгами она бы объяснила, что мурчание — это и радость, и способ успокоиться.'],
+    ['Придумай тост для бабушки на 80 лет', 'Бабушка, за твои 80 лет ты вырастила троих детей, пятерых внуков и бесконечное количество пирожков. За главного шеф-повара нашей семьи!', 'smart', 'Сочинять тосты под конкретного человека умеет только колонка с мозгами.'],
+    ['Сколько будет 17 умножить на 23?', '391.', 'both', 'Считать обычная Алиса умеет отлично — это не повод вставлять мозги.'],
+    ['Что приготовить из гречки и тушёнки, если лень?', 'Ищу рецепты в интернете…', 'dumb', 'С мозгами ответ был бы такой: «Гречка по-купечески: тушёнку с луком на сковороду, гречку сверху, вода, 20 минут под крышкой».'],
+    ['Какая погода завтра?', 'Завтра плюс пять и небольшой дождь. Зонт не помешает.', 'both', 'Погоду обычная Алиса знает сама — тут мозги не нужны.'],
+    ['Объясни ребёнку, что такое электричество', 'Представь, что по проводам бегут крошечные невидимые бегуны и несут энергию лампочке. Поэтому в розетку пальцы не суём — бегуны очень сильные!', 'smart', 'Объяснять сложное простыми словами — суперсила нейросети.'],
+    ['А что я спрашивал минуту назад?', 'Не поняла вас.', 'dumb', 'Обычная Алиса не помнит разговор. С мозгами она помнит последние реплики и можно переспрашивать.'],
+    ['Поставь будильник на 7 утра', 'Будильник на 7:00 поставлен.', 'both', 'Будильники — родная стихия Алисы. А мозги включаются отдельно, фразой «запусти навык…».'],
+    ['Помоги придумать имя для черепахи', 'Можно в шутку назвать её Флэш. Или Тортилла, Шелли, Пончик. А какой у неё характер?', 'smart', 'Придумать варианты и задать встречный вопрос — это мозги.'],
+    ['Сочини стишок про понедельник', 'Я пока не умею это делать.', 'dumb', 'С мозгами: «Понедельник пришёл без стука, кофе — друг, будильник — злюка…»'],
+  ];
+  var LABEL = { dumb: '🙃 Глупая Алиса', smart: '🧠 Умная Алиса', both: '🤝 Справятся обе' };
+  var order, i, score;
+  var $ = function (id) { return document.getElementById(id); };
+
+  function shuffle(a) { for (var k = a.length - 1; k > 0; k--) { var j = Math.floor(Math.random() * (k + 1)); var t = a[k]; a[k] = a[j]; a[j] = t; } return a; }
+  function start() { order = shuffle(ROUNDS.slice()); i = 0; score = 0; $('result').hidden = true; $('game').hidden = false; show(); }
+  function show() {
+    var r = order[i];
+    $('g-progress').textContent = 'Вопрос ' + (i + 1) + ' из ' + order.length + ' · угадано ' + score;
+    $('g-q').textContent = r[0];
+    $('g-a').textContent = r[1];
+    $('g-why').hidden = true; $('g-next').hidden = true;
+    document.querySelectorAll('[data-pick]').forEach(function (b) { b.disabled = false; b.classList.remove('right', 'wrong'); });
+  }
+  document.querySelectorAll('[data-pick]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var r = order[i]; var ok = b.dataset.pick === r[2];
+      if (ok) score++;
+      document.querySelectorAll('[data-pick]').forEach(function (x) {
+        x.disabled = true;
+        if (x.dataset.pick === r[2]) x.classList.add('right'); else if (x === b) x.classList.add('wrong');
+      });
+      $('g-why').textContent = (ok ? '✅ Верно! ' : '❌ Мимо: это ' + LABEL[r[2]] + '. ') + r[3];
+      $('g-why').hidden = false;
+      $('g-next').textContent = i + 1 < order.length ? 'Дальше' : 'Результат';
+      $('g-next').hidden = false; $('g-next').focus();
+    });
+  });
+  $('g-next').addEventListener('click', function () { i++; if (i < order.length) show(); else finish(); });
+  function finish() {
+    $('game').hidden = true; $('result').hidden = false;
+    var t = score >= 9 ? ['🏆 Профессор нейрохирургии', 'Вы видите мозги насквозь. Пора вставить их своей колонке!']
+      : score >= 6 ? ['🩺 Главный хирург', 'Отличное чутьё! Осталось дать колонке такие же мозги.']
+      : score >= 3 ? ['🧑‍🔬 Ассистент хирурга', 'Неплохо! А с мозгами колонка удивит вас ещё больше.']
+      : ['🙃 Пациент лаборатории', 'Ничего страшного — колонке тоже нужны мозги. Начните с неё!'];
+    $('r-title').textContent = score + ' из ' + order.length + ' · ' + t[0];
+    $('r-text').textContent = t[1];
+    var text = 'Я угадал(а) ' + score + ' из ' + order.length + ' в игре «Глупая или умная Алиса?» 🧠 А ты?';
+    $('r-share').href = 'https://t.me/share/url?url=' + encodeURIComponent(location.href) + '&text=' + encodeURIComponent(text);
+  }
+  $('r-again').addEventListener('click', start);
+  start();
+})();
+</script>
+</body>
+</html>
