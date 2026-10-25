@@ -97,13 +97,14 @@
 
   function renderCabinet(d) {
     $('kabinet').hidden = false;
-    document.querySelector('.cab-hello').textContent = 'Здравствуйте, ' + (d.name || 'друг') + '! С нами с ' + fmtDate(d.since) + '.';
+    document.querySelector('.cab-hello').textContent = 'Здравствуйте, ' + (d.name || 'друг') + '! С нами с ' + fmtDate(d.since) + '. Звание: ' + (d.rank || '') + '.';
     var st = $('cab-status'); st.innerHTML = '';
     if (d.skill) {
       st.appendChild(el('h3', null, '🧠 Мозги установлены'));
       var ul = el('ul', 'cab-facts');
       ul.appendChild(el('li', null, 'С ' + fmtDate(d.skill.installedAt)));
       ul.appendChild(el('li', null, 'Нейросети: ' + String(d.skill.providers || 'gemini, groq').split(',').map(function (x) { return AI[x.trim()] || x; }).join(', ')));
+      if (d.stats) ul.appendChild(el('li', null, 'С мозгами ' + d.stats.days + ' дн. · в памяти ' + d.stats.memories + ' · отправлено в Телеграм ' + d.stats.voice + ' · проверок ' + d.stats.checks));
       if (d.lastCheck) ul.appendChild(el('li', null, 'Последняя проверка: ' + (d.lastCheck.result === 'fail' ? '❌ не ответили' : '✅ ' + (AI[d.lastCheck.result] || 'работают')) + ', ' + fmtDate(d.lastCheck.ts)));
       st.appendChild(ul);
       var b = el('button', 'btn', 'Проверить мозги'); b.type = 'button';
@@ -194,6 +195,10 @@
     var cur = d.skill.persona;
     if (cur === 'custom') box.appendChild(chip('✍️ Свой (меняется в боте)', true, function () {}));
     d.personas.forEach(function (p) {
+      if (p.locked) {
+        var c = chip(p.title + ' 🔒', false, function () { $('cab-saved').textContent = 'Откроется, когда по вашей ссылке придут ' + p.need + ' ' + (p.need === 1 ? 'друг' : 'друга') + ' — ссылка ниже, в «Пригласить друга».'; });
+        c.classList.add('locked'); box.appendChild(c); return;
+      }
       box.appendChild(chip(p.title, p.key === cur, function () { save({ persona: p.key }, function () { d.skill.persona = p.key; renderSettings(d); }); }));
     });
     var pr = $('cab-primary'); pr.innerHTML = '';
