@@ -1,5 +1,5 @@
 // Офлайн-копия сайта (PWA). При обновлении сайта поменяйте VERSION.
-const VERSION = 'mozgi-18';
+const VERSION = 'mozgi-19';
 const FILES = ['./', 'index.html', 'instrukciya.html', 'styles.css', 'app.js', 'guide.js', 'idei.html', 'ideas.js', 'igra.html', 'gemini-help.html', 'manifest.webmanifest', 'img/logo-512.png', 'img/logo.svg'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(VERSION).then(c => c.addAll(FILES))); self.skipWaiting(); });
 self.addEventListener('activate', e => {
