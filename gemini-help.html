@@ -87,9 +87,15 @@
   </section>
 
   <section class="help-card" id="more">
-    <span class="tag">Больше запросов</span>
-    <h2>Чтобы мозги не «перегревались»</h2>
-    <p>Бесплатный ключ Gemini даёт ограниченное число запросов: если спрашивать часто, колонка говорит «мозги перегрелись». Ключ с большим лимитом недорого продают на Plati.market. При покупке выбирайте именно <b>Gemini API — токены</b>, не подписку и не аккаунт. Продавец пришлёт <b>API-ключ</b> и <b>Base URL</b> (адрес API) — это доступ к Gemini через его сервис, наши мозги такой понимают.</p>
+    <span class="tag">Купить от 1$</span>
+    <h2>Больше запросов Gemini — чтобы мозги не «перегревались»</h2>
+    <p>Бесплатный ключ Gemini даёт ограниченное число запросов: если спрашивать часто, колонка говорит «мозги перегрелись». Купленный ключ подключается <b>рядом</b> с бесплатным, и вы сами выбираете, кто думает первым — например, платный, а если он не ответит, то бесплатный.</p>
+    <p><b>Что покупать.</b> Именно <b>Gemini API</b> (не подписку и не аккаунт). Подходят два варианта:</p>
+    <ul>
+      <li><b>Ключ + Base URL</b> — доступ через сервис продавца («вариант A», обычно дешевле).</li>
+      <li><b>Оригинальный ключ Google</b>, начинается с <code>AIza</code> («вариант B»).</li>
+    </ul>
+    <p><b>Какую модель выбрать</b>, если продавец спрашивает: <b>Gemini 3.5 / 3.6 / 3.7 / 3.8 Flash</b> — быстрые и недорогие, идеальны для колонки. <b>Не берите</b> Pro (вдвое дороже и медленнее — колонка может не успеть ответить за 4,5 секунды), а также Image, TTS, Native Audio, Embedding, Imagen, Veo и Gemma — они не для разговоров. Выбора модели нет — не страшно, бот подберёт сам.</p>
     <p><b>Сколько хватит.</b> Один вопрос колонке с ответом — примерно 1–1,5 тыс. токенов вместе с характером и памятью разговора:</p>
     <ul>
       <li><b>1M токенов</b> — около 700–1 000 вопросов (месяц, если 30 вопросов в день)</li>
@@ -98,10 +104,14 @@
       <li><b>50M</b> — около 35–50 тыс.</li>
       <li><b>100M</b> — около 70–100 тыс. (семье на годы)</li>
     </ul>
-    <p>Длинные сказки и игры тратят больше, короткие вопросы — меньше. После покупки в боте: «Алиса» → «🔑 Сменить ключ Gemini / Groq» → «🔌 Ключ от продавца» → пришлите Base URL, потом ключ. Бот проверит их и подберёт модель, а если что-то не так — скажет, что именно (ключ, адрес или баланс). Проверить ключи можно в любой момент кнопкой «🔍 Проверить мои ключи».</p>
-    <p class="gate-small">⚠️ С таким ключом ваши вопросы колонке идут через сервис продавца, а не напрямую в Google. Это сторонний магазин, мы с ним не связаны. Покупка — на ваш риск.</p>
-    <a class="btn small" id="buy-gemini" href="https://plati.market/games/gemini/1541/" target="_blank" rel="noopener">💎 Купить ключ Gemini API</a>
-    <a class="btn small ghost" href="https://t.me/alisa_mozgi_dlya_kolonki_bot?start=keys">🔑 Сменить ключ в боте</a>
+    <p><b>Как подключить.</b> В боте: «Алиса» → «🔑 Ключи нейросетей» → «💎 Подключить купленный ключ» → выберите, что прислал продавец, и вставьте данные. Бот проверит ключ и подберёт модель. Затем в «⚙️ Какой ключ работает первым» выберите порядок. Работу ключа и остаток (если продавец его показывает) видно в «🔍 Проверить ключи и остаток».</p>
+    <p class="gate-small">⚠️ С ключом через сервис продавца ваши вопросы колонке идут через этот сервис, а не напрямую в Google. Магазины сторонние, мы с ними не связаны. Покупка — на ваш риск.</p>
+    <div class="cta-row" id="buy-links">
+      <a class="btn small" href="https://digiseller.me/asp2/pay.asp?id_d=5079491&amp;ai=1481171" target="_blank" rel="noopener">✅ Проверенный продавец ключа</a>
+      <a class="btn small ghost" href="https://plati.market/itm/api-gemini-flash-3-7-3-6-3-5-pro-3-1-auto-delivery-1m-1b/6056762" target="_blank" rel="noopener">🛒 Gemini API 1M–1B токенов</a>
+      <a class="btn small ghost" href="https://plati.market/games/gemini/1541/" target="_blank" rel="noopener">🗂 Все предложения ключей Gemini</a>
+    </div>
+    <p><a class="btn small ghost" href="https://t.me/alisa_mozgi_dlya_kolonki_bot?start=keys">🔑 Подключить ключ в боте</a></p>
   </section>
 
   <section class="help-card" id="groq">
@@ -142,9 +152,13 @@
 
 <script src="app.js" defer></script>
 <script>
-  // Ссылка «купить ключ» меняется в пульте бота (например, на реферальную)
+  // Кнопки «купить ключ» меняются в пульте бота (свои реферальные ссылки)
   fetch('https://pult-dlya-kolonki.tenylse.workers.dev/site/links').then(function (r) { return r.json(); }).then(function (d) {
-    if (d && d.gemini_buy_url) document.getElementById('buy-gemini').href = d.gemini_buy_url;
+    if (!d || !Array.isArray(d.buy_links)) return;
+    var box = document.getElementById('buy-links'); box.innerHTML = '';
+    d.buy_links.forEach(function (l, i) {
+      var a = document.createElement('a'); a.className = 'btn small' + (i ? ' ghost' : ''); a.href = l.u; a.target = '_blank'; a.rel = 'noopener'; a.textContent = l.t; box.appendChild(a);
+    });
   }).catch(function () {});
 </script>
 </body>

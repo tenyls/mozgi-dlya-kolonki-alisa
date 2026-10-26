@@ -260,7 +260,7 @@
       if (s.key === 'gemini') {
         var help = document.createElement('p');
         help.className = 'warn';
-        help.innerHTML = '🆘 Google не даёт создать ключ (permission denied, Unsupported country)? <a href="gemini-help.html">Что делать — инструкция</a>. Или просто пропустите Gemini в боте — мозги будут работать на Groq.<br>💎 Хотите больше запросов, чтобы мозги не «перегревались»? <a href="gemini-help.html#more">Ключ с большим лимитом</a>.';
+        help.innerHTML = '🆘 Google не даёт создать ключ (permission denied, Unsupported country)? <a href="gemini-help.html">Что делать — инструкция</a>. Или просто пропустите Gemini в боте — мозги будут работать на Groq.<br>💎 <a href="gemini-help.html#more">Купить от 1$ больше запросов Gemini</a> — какую модель выбрать и на сколько хватит.';
         text.appendChild(help);
       }
       art.appendChild(text);
