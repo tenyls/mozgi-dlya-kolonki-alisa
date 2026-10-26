@@ -86,6 +86,24 @@
     <p class="gate-small">⚠️ Покупка у сторонних продавцов — на ваш риск: мы с ними не связаны.</p>
   </section>
 
+  <section class="help-card" id="more">
+    <span class="tag">Больше запросов</span>
+    <h2>Чтобы мозги не «перегревались»</h2>
+    <p>Бесплатный ключ Gemini даёт ограниченное число запросов: если спрашивать часто, колонка говорит «мозги перегрелись». Ключ с большим лимитом недорого продают на Plati.market. При покупке выбирайте именно <b>Gemini API — токены</b>, не подписку и не аккаунт.</p>
+    <p><b>Сколько хватит.</b> Один вопрос колонке с ответом — примерно 1–1,5 тыс. токенов вместе с характером и памятью разговора:</p>
+    <ul>
+      <li><b>1M токенов</b> — около 700–1 000 вопросов (месяц, если 30 вопросов в день)</li>
+      <li><b>10M</b> — около 7–10 тыс. вопросов (больше полугода)</li>
+      <li><b>25M</b> — около 17–25 тыс.</li>
+      <li><b>50M</b> — около 35–50 тыс.</li>
+      <li><b>100M</b> — около 70–100 тыс. (семье на годы)</li>
+    </ul>
+    <p>Длинные сказки и игры тратят больше, короткие вопросы — меньше. После покупки в боте: «Алиса» → «🔑 Сменить ключ Gemini / Groq». Бот проверит ключ: если он «не подошёл», продавец дал не настоящий ключ Google — пишите продавцу.</p>
+    <p class="gate-small">⚠️ Это сторонний магазин, мы с ним не связаны. Покупка — на ваш риск.</p>
+    <a class="btn small" id="buy-gemini" href="https://plati.market/games/gemini/1541/" target="_blank" rel="noopener">💎 Купить ключ Gemini API</a>
+    <a class="btn small ghost" href="https://t.me/alisa_mozgi_dlya_kolonki_bot?start=keys">🔑 Сменить ключ в боте</a>
+  </section>
+
   <section class="help-card" id="groq">
     <span class="tag">Groq</span>
     <h2>Кнопка «Создать ключ API» в Groq серая</h2>
@@ -123,5 +141,11 @@
 </footer>
 
 <script src="app.js" defer></script>
+<script>
+  // Ссылка «купить ключ» меняется в пульте бота (например, на реферальную)
+  fetch('https://pult-dlya-kolonki.tenylse.workers.dev/site/links').then(function (r) { return r.json(); }).then(function (d) {
+    if (d && d.gemini_buy_url) document.getElementById('buy-gemini').href = d.gemini_buy_url;
+  }).catch(function () {});
+</script>
 </body>
 </html>
