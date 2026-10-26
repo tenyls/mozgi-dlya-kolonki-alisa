@@ -251,6 +251,12 @@
       text.className = 'step-text';
       text.innerHTML = s.html; // HTML из пульта (только b/i/a/code из Телеграма)
       text.querySelectorAll('a').forEach(function (a) { a.target = '_blank'; a.rel = 'noopener'; });
+      if (s.key === 'groq') {
+        var gh = document.createElement('p');
+        gh.className = 'warn';
+        gh.innerHTML = '🆘 Кнопка «Create API Key» серая? <a href="gemini-help.html#groq">Что делать</a>. Groq можно пропустить, если ключ Gemini уже есть.';
+        text.appendChild(gh);
+      }
       if (s.key === 'gemini') {
         var help = document.createElement('p');
         help.className = 'warn';

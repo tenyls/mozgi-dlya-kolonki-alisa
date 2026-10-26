@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Не получается ключ Gemini — Мозги для колонки</title>
+<title>Не получается ключ Gemini или Groq — Мозги для колонки</title>
 <meta name="description" content="Что делать, если Google AI Studio не даёт создать ключ Gemini: ошибка permission denied, Unsupported country, аккаунт привязан к России.">
 <meta name="theme-color" content="#d6efe6">
 <link rel="icon" href="img/logo.svg" type="image/svg+xml">
@@ -38,8 +38,8 @@
 <main class="wrap">
   <div class="doc-head">
     <p class="lab-sign">Справка лаборатории</p>
-    <h1>Не получается ключ Gemini?</h1>
-    <p class="lead">Google AI Studio не даёт создать ключ — разбираемся, почему так бывает и как всё равно поставить колонке мозги.</p>
+    <h1>Не получается ключ Gemini или Groq?</h1>
+    <p class="lead">Google AI Studio или Groq не дают создать ключ — разбираемся, почему так бывает и как всё равно поставить колонке мозги. Нужен хотя бы один ключ из двух. <a href="#groq">Сразу к Groq ↓</a></p>
   </div>
 
   <section class="help-card errs">
@@ -84,6 +84,19 @@
       <li><b>Купите готовый зарубежный аккаунт</b> на маркетплейсе (например, <a href="https://ggsel.net/catalog/gmail-accounts" target="_blank" rel="noopener">ggsel.net</a>, от ~50 ₽). Продавец присылает «почта | пароль | ключ 2FA». При входе Google спросит код: вставьте ключ 2FA на <a href="https://2fa.live/" target="_blank" rel="noopener">2fa.live</a> и возьмите последние 6 цифр. Сразу смените пароль и добавьте свою резервную почту.</li>
     </ul>
     <p class="gate-small">⚠️ Покупка у сторонних продавцов — на ваш риск: мы с ними не связаны.</p>
+  </section>
+
+  <section class="help-card" id="groq">
+    <span class="tag">Groq</span>
+    <h2>Кнопка «Создать ключ API» в Groq серая</h2>
+    <p>Рядом надпись «Создавать и управлять ключами API могут только владельцы команд…», а вместо списка ключей — серая полоса. Значит, сайт Groq <b>не загрузился до конца</b>: Groq не пускает из России, и страница считает вас гостем без прав.</p>
+    <ol>
+      <li>Включите VPN со страной <b>не Россия</b> (Германия, Нидерланды, США). Если VPN уже включён — смените страну.</li>
+      <li>Закройте вкладку и откройте <a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com/keys</a> заново, лучше в Chrome, а не внутри Telegram.</li>
+      <li>Не помогло — аватар вверху справа → <b>Log out</b> и снова войдите через Google.</li>
+      <li>Слева вверху проверьте организацию: должна быть ваша. Если там чужая команда — выберите свою или <b>Create organization</b>.</li>
+    </ol>
+    <p>⏭ <b>Можно пропустить Groq</b>, если ключ Gemini уже есть: в боте на шаге Groq нажмите «Пропустить Groq — только Gemini». Нужен хотя бы один ключ — Gemini или Groq. Два ключа надёжнее: если один занят, отвечает другой.</p>
   </section>
 
   <section class="help-card">
