@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>История обновлений — Мозги для колонки</title>
+<meta name="description" content="Что нового в мозгах для колонки с Алисой и в боте: новые функции, исправления, версии.">
+<meta name="theme-color" content="#d6efe6">
+<link rel="icon" href="img/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="img/logo-512.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;600;700&family=Unbounded:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="https://telegram.org/js/telegram-web-app.js" defer></script>
+<style>
+  .upd-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 4px; }
+  .upd-tabs button { font: inherit; font-weight: 700; border: 2px solid #26163f; border-radius: 999px; padding: 6px 14px; background: #fff; cursor: pointer; }
+  .upd-tabs button[aria-pressed="true"] { background: #ffd23f; }
+  .upd { background: #fff; border: 2px solid #26163f; border-radius: 18px; padding: 16px 20px; margin: 14px 0; box-shadow: 4px 4px 0 #26163f; }
+  .upd h2 { margin: 0 0 8px; font-size: 1.1rem; }
+  .upd .ver { display: inline-block; background: #7c4dff; color: #fff; border-radius: 999px; padding: 2px 10px; font-size: .85rem; margin-right: 6px; }
+  .upd .txt { white-space: pre-line; line-height: 1.55; overflow-wrap: anywhere; }
+  .upd.new { border-color: #7c4dff; }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="./"><img src="img/logo-512.png" alt="" width="40" height="40">Мозги для колонки</a>
+  <nav aria-label="Разделы">
+    <a href="./">Главная</a>
+    <a href="instrukciya.html">Инструкция</a>
+    <a class="btn small" data-bot href="https://t.me/alisa_mozgi_dlya_kolonki_bot?start=site_updates">Открыть бота</a>
+  </nav>
+</header>
+
+<main class="wrap">
+  <div class="doc-head">
+    <p class="lab-sign">Журнал лаборатории</p>
+    <h1>История обновлений</h1>
+    <p class="lead">Что нового появилось у колонки с мозгами и в боте. Новые мозги включаются в боте кнопкой «Алиса» → «⬆️ Обновить мозги» — ключи вводить не нужно.</p>
+  </div>
+  <div class="upd-tabs" role="group" aria-label="Что показать">
+    <button type="button" data-tab="skill" aria-pressed="true">🧠 Мозги колонки</button>
+    <button type="button" data-tab="bot" aria-pressed="false">🤖 Бот</button>
+  </div>
+  <div id="list"><p>Загружаю…</p></div>
+  <div class="cta-row"><a class="btn" data-bot href="https://t.me/alisa_mozgi_dlya_kolonki_bot?start=site_updates">⬆️ Обновить мозги в боте</a></div>
+</main>
+
+<footer>
+  <div class="wrap row">
+    <p class="disclaimer">Неофициальный проект, не связан с Яндексом.</p>
+    <p><a href="./">Главная</a> · <a href="instrukciya.html">Инструкция</a> · <a href="gemini-help.html">Ключи нейросетей</a> · <a href="privacy.html">Конфиденциальность</a></p>
+  </div>
+</footer>
+
+<script src="app.js" defer></script>
+<script>
+  (function () {
+    var data = null, tab = 'skill';
+    var plain = function (html) { var t = document.createElement('div'); t.innerHTML = String(html || '').replace(/<br\s*\/?>/gi, '\n'); return t.textContent; };
+    function render() {
+      var box = document.getElementById('list'); box.innerHTML = '';
+      if (!data) { box.innerHTML = '<p>Не удалось загрузить. Обновите страницу чуть позже.</p>'; return; }
+      var items = tab === 'skill' ? data.skill : data.bot;
+      items.forEach(function (it, i) {
+        var card = document.createElement('article'); card.className = 'upd' + (i === 0 ? ' new' : '');
+        var h = document.createElement('h2');
+        var v = document.createElement('span'); v.className = 'ver'; v.textContent = (tab === 'skill' ? 'Мозги ' : 'Бот ') + it.v; h.appendChild(v);
+        if (i === 0) h.appendChild(document.createTextNode(' 🆕 последняя версия'));
+        card.appendChild(h);
+        var t = document.createElement('div'); t.className = 'txt'; t.textContent = plain(it.html).replace(/^🆕\s*/, ''); card.appendChild(t);
+        box.appendChild(card);
+      });
+    }
+    document.querySelectorAll('.upd-tabs button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        tab = b.getAttribute('data-tab');
+        document.querySelectorAll('.upd-tabs button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+        render();
+      });
+    });
+    fetch('https://pult-dlya-kolonki.tenylse.workers.dev/site/updates').then(function (r) { return r.json(); })
+      .then(function (d) { data = d && d.ok ? d : null; render(); }).catch(function () { render(); });
+  })();
+</script>
+</body>
+</html>
